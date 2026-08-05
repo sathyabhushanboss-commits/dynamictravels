@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F1EDE3;
+  --foreground: #161B22;
+  --font-barlow: "Barlow Condensed", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-plex-mono: "IBM Plex Mono", monospace;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Dashed route line — the signature motif, used across pages */
+.route-line {
+  position: relative;
+  height: 2px;
+  background-image: repeating-linear-gradient(
+    to right,
+    #707A87 0,
+    #707A87 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+.route-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background: #F2A93B;
+  box-shadow: 0 0 0 3px #F1EDE3, 0 0 0 4px #707A87;
+  flex-shrink: 0;
+}
+
+/* Odometer-style tabular numerals for fare figures */
+.odometer {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    animation: fadeUp 0.6s ease-out both;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
