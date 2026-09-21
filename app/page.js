@@ -14,7 +14,7 @@ import PopularRoutes from "@/components/PopularRoutes";
 import TravelExpertPopup from "@/components/TravelExpertPopup";
 
 /* =========================================================
-   HERO IMAGES
+   IMAGES
 ========================================================= */
 
 const HERO_IMAGES = [
@@ -25,11 +25,11 @@ const HERO_IMAGES = [
   "/images/5.png",
 ];
 
-const AUTO_SLIDE_TIME = 2000;
-
-/* =========================================================
-   SHOWCASE IMAGES
-========================================================= */
+const TRAVEL_MOMENTS = [
+  "/images/1dd.jpeg",
+  "/images/2dd.jpeg",
+  "/images/3dd.jpeg",
+];
 
 const SHOWCASE_IMAGES = [
   "/images/1dt.jpeg",
@@ -39,12 +39,7 @@ const SHOWCASE_IMAGES = [
   "/images/5dt.jpeg",
 ];
 
-/* =========================================================
-   CERTIFICATE IMAGE
-========================================================= */
-
-const CERTIFICATE_IMAGE =
-  "/images/dynamic-travels-certificate.jpg";
+const AUTO_SLIDE_TIME = 2000;
 
 /* =========================================================
    HOME PAGE
@@ -125,10 +120,13 @@ export default function Home() {
       {/* POPULAR ROUTES */}
       <PopularRoutes />
 
-      {/* SLOW MARQUEE GALLERY */}
+      {/* 16:9 TRAVEL MOMENTS */}
+      <TravelMomentsSection />
+
+      {/* PORTRAIT SHOWCASE */}
       <TravelShowcaseGallery />
 
-      {/* DYNAMIC TRAVELS CERTIFICATE */}
+      {/* CERTIFICATE */}
       <DynamicTravelsCertificate />
 
       {/* FOOTER */}
@@ -149,18 +147,14 @@ function PremiumHeroSlider() {
   const touchEndX = useRef(null);
 
   const nextSlide = useCallback(() => {
-    setActiveIndex((current) => {
-      return (current + 1) % HERO_IMAGES.length;
-    });
+    setActiveIndex((current) => (current + 1) % HERO_IMAGES.length);
   }, []);
 
   const previousSlide = useCallback(() => {
-    setActiveIndex((current) => {
-      return (
-        (current - 1 + HERO_IMAGES.length) %
-        HERO_IMAGES.length
-      );
-    });
+    setActiveIndex(
+      (current) =>
+        (current - 1 + HERO_IMAGES.length) % HERO_IMAGES.length
+    );
   }, []);
 
   useEffect(() => {
@@ -170,20 +164,13 @@ function PremiumHeroSlider() {
       nextSlide();
     }, AUTO_SLIDE_TIME);
 
-    return () => {
-      window.clearInterval(timer);
-    };
+    return () => window.clearInterval(timer);
   }, [paused, nextSlide]);
 
   useEffect(() => {
     const handleKeyboard = (event) => {
-      if (event.key === "ArrowLeft") {
-        previousSlide();
-      }
-
-      if (event.key === "ArrowRight") {
-        nextSlide();
-      }
+      if (event.key === "ArrowLeft") previousSlide();
+      if (event.key === "ArrowRight") nextSlide();
     };
 
     window.addEventListener("keydown", handleKeyboard);
@@ -194,15 +181,12 @@ function PremiumHeroSlider() {
   }, [nextSlide, previousSlide]);
 
   const handleTouchStart = (event) => {
-    touchStartX.current =
-      event.touches[0]?.clientX ?? null;
-
+    touchStartX.current = event.touches[0]?.clientX ?? null;
     touchEndX.current = null;
   };
 
   const handleTouchMove = (event) => {
-    touchEndX.current =
-      event.touches[0]?.clientX ?? null;
+    touchEndX.current = event.touches[0]?.clientX ?? null;
   };
 
   const handleTouchEnd = () => {
@@ -213,8 +197,7 @@ function PremiumHeroSlider() {
       return;
     }
 
-    const distance =
-      touchStartX.current - touchEndX.current;
+    const distance = touchStartX.current - touchEndX.current;
 
     if (Math.abs(distance) >= 50) {
       if (distance > 0) {
@@ -237,6 +220,7 @@ function PremiumHeroSlider() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {/* HERO IMAGE */}
       <div className="relative aspect-video w-full overflow-hidden bg-[#f3f4f6]">
         {HERO_IMAGES.map((image, index) => {
           const isActive = index === activeIndex;
@@ -244,7 +228,7 @@ function PremiumHeroSlider() {
           return (
             <div
               key={image}
-              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-[1200ms] ease-in-out ${
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-[1200ms] ${
                 isActive
                   ? "z-10 opacity-100"
                   : "z-0 opacity-0"
@@ -266,7 +250,7 @@ function PremiumHeroSlider() {
         type="button"
         onClick={previousSlide}
         aria-label="Previous image"
-        className="absolute left-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl leading-none text-white shadow-lg backdrop-blur-md transition hover:bg-black/50 md:flex"
+        className="absolute left-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl text-white backdrop-blur-md hover:bg-black/50 md:flex lg:left-7"
       >
         ‹
       </button>
@@ -276,100 +260,160 @@ function PremiumHeroSlider() {
         type="button"
         onClick={nextSlide}
         aria-label="Next image"
-        className="absolute right-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl leading-none text-white shadow-lg backdrop-blur-md transition hover:bg-black/50 md:flex"
+        className="absolute right-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl text-white backdrop-blur-md hover:bg-black/50 md:flex lg:right-7"
       >
         ›
       </button>
 
       {/* INDICATORS */}
-      <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
-        {HERO_IMAGES.map((_, index) => {
-          const isActive = index === activeIndex;
-
-          return (
-            <button
-              key={index}
-              type="button"
-              aria-label={`Show image ${index + 1}`}
-              aria-current={isActive ? "true" : "false"}
-              onClick={() => setActiveIndex(index)}
-              className="flex h-6 items-center justify-center"
-            >
-              <span
-                className={`block rounded-full transition-all duration-500 ${
-                  isActive
-                    ? "h-1.5 w-8 bg-white shadow-md"
-                    : "h-1.5 w-2.5 bg-white/60 hover:bg-white/90"
-                }`}
-              />
-            </button>
-          );
-        })}
+      <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 gap-2">
+        {HERO_IMAGES.map((_, index) => (
+          <button
+            key={index}
+            type="button"
+            aria-label={`Show image ${index + 1}`}
+            onClick={() => setActiveIndex(index)}
+            className={`h-1.5 rounded-full transition-all ${
+              index === activeIndex
+                ? "w-8 bg-white"
+                : "w-2.5 bg-white/60"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
 /* =========================================================
-   TRAVEL SHOWCASE GALLERY
-   SLOW MARQUEE
+   WHY CHOOSE US ITEM
+========================================================= */
+
+function FeatureItem({ title, description }) {
+  return (
+    <div className="border-b border-white/10 py-7 lg:border-b-0 lg:border-r lg:px-7 lg:py-10 first:lg:pl-0 last:lg:border-r-0">
+      <h3 className="font-display text-base font-bold">
+        {title}
+      </h3>
+
+      <p className="mt-1.5 text-sm leading-6 text-white/70">
+        {description}
+      </p>
+    </div>
+  );
+}
+
+/* =========================================================
+   16:9 TRAVEL MOMENTS
+   NO ZOOM
+   NO CROPPING
+========================================================= */
+
+function TravelMomentsSection() {
+  return (
+    <section className="bg-[#f7fafb] px-5 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#087f9f]">
+              Our Travel Moments
+            </p>
+
+            <h2 className="mt-3 text-3xl font-bold uppercase leading-tight text-[#172033] sm:text-4xl">
+              Every Journey Deserves
+              <span className="block text-[#087f9f]">
+                A Beautiful Memory
+              </span>
+            </h2>
+          </div>
+
+          <p className="max-w-sm text-sm leading-7 text-slate-500">
+            From city rides to unforgettable getaways, every journey
+            is planned with comfort, care, and a memorable experience.
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {TRAVEL_MOMENTS.map((image, index) => (
+            <div
+              key={image}
+              className="overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-black/5"
+            >
+              {/* CLEAR IMAGE - NO ZOOM - NO CROPPING */}
+              <div className="flex aspect-video items-center justify-center overflow-hidden bg-white">
+                <img
+                  src={image}
+                  alt=""
+                  loading="lazy"
+                  draggable="false"
+                  className="block h-full w-full object-contain"
+                />
+              </div>
+
+              <div className="flex items-center justify-between px-5 py-4">
+                <span className="text-sm font-bold text-[#172033]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#087f9f]">
+                  Travel Experience
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   PORTRAIT SHOWCASE
+   NO ZOOM
 ========================================================= */
 
 function TravelShowcaseGallery() {
-  const images = [
-    ...SHOWCASE_IMAGES,
-    ...SHOWCASE_IMAGES,
-  ];
+  const images = [...SHOWCASE_IMAGES, ...SHOWCASE_IMAGES];
 
   return (
-    <section className="w-full overflow-hidden bg-white py-14 sm:py-16">
-      <div className="showcase-marquee">
+    <section className="overflow-hidden bg-white py-16">
+      <div className="mb-10 px-5 text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#087f9f]">
+          Explore With Us
+        </p>
+
+        <h2 className="mt-3 text-3xl font-bold text-[#172033] sm:text-4xl">
+          Moments That Stay With You
+        </h2>
+      </div>
+
+      <div className="showcase-marquee flex w-max gap-5">
         {images.map((image, index) => (
           <div
             key={`${image}-${index}`}
-            className="showcase-card"
+            className="w-[180px] overflow-hidden rounded-2xl bg-white sm:w-[220px]"
           >
-            <img
-              src={image}
-              alt=""
-              loading="lazy"
-              draggable="false"
-            />
+            {/* FULL PORTRAIT IMAGE - NO ZOOM */}
+            <div className="aspect-[9/16] overflow-hidden">
+              <img
+                src={image}
+                alt=""
+                loading="lazy"
+                draggable="false"
+                className="block h-full w-full object-contain"
+              />
+            </div>
           </div>
         ))}
       </div>
 
       <style jsx>{`
         .showcase-marquee {
-          display: flex;
-          width: max-content;
-          gap: 20px;
           animation: slow-marquee 75s linear infinite;
-          will-change: transform;
         }
 
         .showcase-marquee:hover {
           animation-play-state: paused;
-        }
-
-        .showcase-card {
-          width: 220px;
-          aspect-ratio: 9 / 16;
-          flex-shrink: 0;
-          overflow: hidden;
-          border-radius: 18px;
-          background: #f3f4f6;
-          border: 1px solid rgba(0, 0, 0, 0.08);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .showcase-card img {
-          display: block;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          user-select: none;
-          pointer-events: none;
         }
 
         @keyframes slow-marquee {
@@ -384,19 +428,7 @@ function TravelShowcaseGallery() {
 
         @media (max-width: 640px) {
           .showcase-marquee {
-            gap: 12px;
             animation-duration: 65s;
-          }
-
-          .showcase-card {
-            width: 180px;
-            border-radius: 14px;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .showcase-marquee {
-            animation-play-state: paused;
           }
         }
       `}</style>
@@ -405,60 +437,48 @@ function TravelShowcaseGallery() {
 }
 
 /* =========================================================
-   DYNAMIC TRAVELS CERTIFICATE
+   CERTIFICATE SECTION
 ========================================================= */
 
 function DynamicTravelsCertificate() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f4ef] px-5 py-16 sm:px-8 lg:px-10">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        {/* CERTIFICATE IMAGE */}
-        <div className="overflow-hidden rounded-3xl border border-[#d7c7ae] bg-white p-3 shadow-[0_18px_60px_rgba(74,55,30,0.12)]">
-          <img
-            src={CERTIFICATE_IMAGE}
-            alt="Dynamic Travels ISO 9001:2015 certificate"
-            loading="lazy"
-            className="h-auto w-full rounded-2xl object-contain"
-          />
-        </div>
-
-        {/* DESCRIPTION */}
+    <section className="bg-[#f7f4ef] px-5 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
         <div>
-          <span className="inline-flex rounded-full border border-[#c9a66b] bg-[#fffaf0] px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#9b6b2d]">
+          <span className="inline-flex rounded-full bg-[#087f9f]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#087f9f]">
             Quality & Trust
           </span>
 
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#172b35] sm:text-4xl">
-            Quality you can trust. Journeys you can enjoy.
+          <h2 className="mt-5 text-3xl font-bold leading-tight text-[#172033] sm:text-4xl">
+            Quality you can trust.
+            <span className="block text-[#087f9f]">
+              Journeys you can enjoy.
+            </span>
           </h2>
 
-          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-            Dynamic Travels proudly showcases its ISO 9001:2015 certification for car rental services, reflecting our commitment to dependable service and consistent quality.
+          <p className="mt-5 text-base leading-8 text-slate-600">
+            Dynamic Travels proudly showcases its ISO 9001:2015
+            certification for car rental services, reflecting our
+            commitment to dependable service and consistent quality.
           </p>
 
-          <p className="mt-3 max-w-xl text-base leading-8 text-slate-600">
-            From city rides to outstation journeys, we combine comfortable vehicles, professional service, and thoughtful travel support for every customer.
+          <p className="mt-4 text-base leading-8 text-slate-600">
+            From city rides to outstation journeys, we combine
+            comfortable vehicles, professional service, and thoughtful
+            travel support for every customer.
           </p>
+        </div>
+
+        <div className="rounded-3xl bg-white p-3 shadow-xl ring-1 ring-black/5">
+          <img
+            src="/images/dynamic-travels-certificate.jpg"
+            alt="Dynamic Travels ISO 9001:2015 certificate"
+            loading="lazy"
+            draggable="false"
+            className="block h-auto w-full object-contain"
+          />
         </div>
       </div>
     </section>
-  );
-}
-
-/* =========================================================
-   FEATURE ITEM
-========================================================= */
-
-function FeatureItem({ title, description }) {
-  return (
-    <div className="group border-b border-white/10 py-7 lg:border-b-0 lg:border-r lg:px-7 lg:py-10 first:lg:pl-0 last:lg:border-r-0">
-      <h3 className="font-display text-base font-bold">
-        {title}
-      </h3>
-
-      <p className="mt-1.5 text-sm leading-6 text-white/70">
-        {description}
-      </p>
-    </div>
   );
 }

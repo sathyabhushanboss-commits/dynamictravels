@@ -44,6 +44,12 @@ const features = [
   },
 ];
 
+const TRAVEL_MOMENTS = [
+  "/images/1dd.jpeg",
+  "/images/2dd.jpeg",
+  "/images/3dd.jpeg",
+];
+
 const services = [
   "Local Bangalore cab rentals",
   "Airport pickup and drop",
@@ -61,9 +67,13 @@ export default function AboutPage() {
       <Header />
 
       <main className="min-h-screen overflow-hidden bg-white text-[#172033]">
-        {/* Hero */}
+        {/* =====================================================
+            HERO
+        ===================================================== */}
+
         <section className="relative overflow-hidden bg-gradient-to-br from-[#eef8fb] via-white to-[#fff8e7]">
           <div className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#087f9f]/10 blur-3xl" />
+
           <div className="pointer-events-none absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#f2b84b]/15 blur-3xl" />
 
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:px-10 lg:py-28">
@@ -75,7 +85,9 @@ export default function AboutPage() {
 
               <h1 className="max-w-3xl text-4xl font-bold uppercase leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
                 Travel With
-                <span className="block text-[#087f9f]">Comfort & Confidence</span>
+                <span className="block text-[#087f9f]">
+                  Comfort & Confidence
+                </span>
               </h1>
 
               <p className="mt-6 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
@@ -117,9 +129,11 @@ export default function AboutPage() {
                 <div className="flex min-h-[340px] items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[#087f9f] to-[#172033] px-8 text-center text-white sm:min-h-[430px]">
                   <div>
                     <Car className="mx-auto h-16 w-16 text-[#f2b84b]" />
+
                     <p className="mt-5 text-2xl font-bold uppercase">
                       Your Journey
                     </p>
+
                     <p className="mt-2 text-white/70">
                       Our responsibility
                     </p>
@@ -130,9 +144,15 @@ export default function AboutPage() {
               <div className="absolute -bottom-5 -left-3 rounded-2xl bg-white px-5 py-4 shadow-xl sm:-left-6">
                 <div className="flex items-center gap-3">
                   <Award className="h-8 w-8 text-[#f2b84b]" />
+
                   <div>
-                    <p className="text-sm font-bold">Travel Made Simple</p>
-                    <p className="text-xs text-slate-500">Bangalore & beyond</p>
+                    <p className="text-sm font-bold">
+                      Travel Made Simple
+                    </p>
+
+                    <p className="text-xs text-slate-500">
+                      Bangalore & beyond
+                    </p>
                   </div>
                 </div>
               </div>
@@ -140,7 +160,10 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Introduction */}
+        {/* =====================================================
+            INTRODUCTION
+        ===================================================== */}
+
         <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
@@ -173,8 +196,12 @@ export default function AboutPage() {
                   "Clear booking coordination",
                   "Local and outstation travel",
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-2">
+                  <div
+                    key={item}
+                    className="flex items-center gap-2"
+                  >
                     <CheckCircle className="h-5 w-5 shrink-0 text-[#2fbf8f]" />
+
                     <span className="text-sm font-medium text-slate-700">
                       {item}
                     </span>
@@ -185,9 +212,11 @@ export default function AboutPage() {
 
             <div className="rounded-3xl bg-[#f4f8fa] p-7 sm:p-9">
               <MapPin className="h-10 w-10 text-[#087f9f]" />
+
               <h3 className="mt-5 text-2xl font-bold">
                 Based in Bangalore
               </h3>
+
               <p className="mt-3 leading-7 text-slate-600">
                 Serving Bangalore and travel destinations across Karnataka and
                 South India with practical transportation solutions for every
@@ -202,13 +231,87 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Features */}
+        {/* =====================================================
+            CREATIVE TRAVEL MOMENTS
+            16:9 | NO MARQUEE
+        ===================================================== */}
+
+        <section className="relative overflow-hidden bg-[#f7fafb] px-5 py-20 sm:px-8 lg:px-10">
+          <div className="mx-auto max-w-7xl">
+            {/* SECTION HEADER */}
+
+            <div className="mb-10 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#087f9f]">
+                  Our Travel Moments
+                </p>
+
+                <h2 className="mt-3 max-w-2xl text-3xl font-bold uppercase leading-tight text-[#172033] sm:text-4xl">
+                  Every Journey Deserves
+                  <span className="block text-[#087f9f]">
+                    A Beautiful Memory
+                  </span>
+                </h2>
+              </div>
+
+              <p className="max-w-sm text-sm leading-7 text-slate-500">
+                From everyday city rides to memorable long-distance journeys,
+                we make every trip comfortable and meaningful.
+              </p>
+            </div>
+
+            {/* IMAGE CARDS */}
+
+            <div className="grid gap-5 md:grid-cols-3">
+              {TRAVEL_MOMENTS.map((image, index) => (
+                <div
+                  key={image}
+                  className="group relative overflow-hidden rounded-[1.5rem] bg-white shadow-[0_15px_45px_rgba(23,32,51,0.10)] ring-1 ring-black/5"
+                >
+                  {/* 16:9 IMAGE */}
+
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={image}
+                      alt=""
+                      loading="lazy"
+                      draggable="false"
+                      className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                    />
+                  </div>
+
+                  {/* CARD FOOTER */}
+
+                  <div className="flex items-center justify-between px-5 py-4">
+                    <span className="text-sm font-bold text-[#172033]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#087f9f]">
+                      Travel Experience
+                    </span>
+                  </div>
+
+                  {/* HOVER OVERLAY */}
+
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#172033]/20 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* =====================================================
+            FEATURES
+        ===================================================== */}
+
         <section className="bg-[#087f9f] text-white">
           <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10">
             <div className="max-w-2xl">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f2b84b]">
                 Why Choose Us
               </p>
+
               <h2 className="mt-3 text-3xl font-bold uppercase sm:text-4xl">
                 Built Around Your Journey
               </h2>
@@ -224,7 +327,11 @@ export default function AboutPage() {
                     className="rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-sm"
                   >
                     <Icon className="h-9 w-9 text-[#f2b84b]" />
-                    <h3 className="mt-5 text-lg font-bold">{feature.title}</h3>
+
+                    <h3 className="mt-5 text-lg font-bold">
+                      {feature.title}
+                    </h3>
+
                     <p className="mt-3 text-sm leading-7 text-white/70">
                       {feature.description}
                     </p>
@@ -235,7 +342,10 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Services */}
+        {/* =====================================================
+            SERVICES
+        ===================================================== */}
+
         <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -268,6 +378,7 @@ export default function AboutPage() {
                   className="flex items-start gap-3 rounded-xl border border-slate-100 bg-slate-50 p-4"
                 >
                   <CheckCircle className="mt-0.5 h-5 w-5 shrink-0 text-[#087f9f]" />
+
                   <span className="text-sm font-semibold text-slate-700">
                     {service}
                   </span>
@@ -277,13 +388,17 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* =====================================================
+            CTA
+        ===================================================== */}
+
         <section className="bg-gradient-to-r from-[#172033] to-[#087f9f]">
           <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-7 px-5 py-16 sm:px-8 lg:flex-row lg:items-center lg:px-10">
             <div className="max-w-2xl text-white">
               <h2 className="text-3xl font-bold uppercase sm:text-4xl">
                 Ready For Your Next Journey?
               </h2>
+
               <p className="mt-3 leading-7 text-white/70">
                 Contact Dynamic Travels for vehicle availability, trip details,
                 and booking assistance.
@@ -300,6 +415,8 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
+
+      {/* FOOTER */}
 
       <Footer />
     </>
