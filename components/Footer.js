@@ -21,7 +21,7 @@ const WHATSAPP_NUMBER =
 
 const EMAIL =
   process.env.NEXT_PUBLIC_BUSINESS_EMAIL ||
-  "networkingtoursandtravels@gmail.com";
+  "dynamictours76@gmail.com";
 
 const COMPANY_NAME = "Dynamic Travels";
 
