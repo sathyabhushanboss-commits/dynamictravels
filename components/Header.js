@@ -1,92 +1,66 @@
-const PHONE =
-  process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+91 73490 16519";
-
-const WHATSAPP =
-  process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "917349016519";
+import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
 
         {/* Logo */}
-        <a href="/" className="flex items-center gap-3">
-          <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-route-gradient shadow-glow">
-            <img
-              src="/logo.png"
-              alt="Dynamic Travels logo"
-              className="h-full w-full object-cover"
-            />
-          </span>
+        <Link
+          href="/"
+          className="text-xl font-bold text-[#087f9f]"
+        >
+          Dynamic Travels
+        </Link>
 
-          <span className="leading-tight">
-            <span className="block font-display text-base font-bold tracking-tight text-asphalt sm:text-lg">
-              DYNAMIC TRAVELS
-            </span>
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-8 md:flex">
 
-            <span className="block text-xs text-asphalt/50">
-               Bengaluru
-            </span>
-          </span>
-        </a>
-
-        {/* Navigation */}
-        <nav className="hidden items-center gap-1 lg:flex">
-          <a
-            href="/#book"
-            className="focus-ring rounded-full px-3 py-2 text-sm font-semibold text-asphalt/70 hover:text-asphalt"
+          <Link
+            href="/"
+            className="font-medium text-gray-700 transition hover:text-[#087f9f]"
           >
-            Book a Cab
-          </a>
+            Home
+          </Link>
 
-          <a
-            href="/#services"
-            className="focus-ring rounded-full px-3 py-2 text-sm font-semibold text-asphalt/70 hover:text-asphalt"
+          <Link
+            href="/about"
+            className="font-medium text-gray-700 transition hover:text-[#087f9f]"
           >
-            Services
-          </a>
+            About
+          </Link>
 
-          <a
-            href="/group-booking"
-            className="focus-ring rounded-full px-3 py-2 text-sm font-semibold text-asphalt/70 hover:text-asphalt"
+          <Link
+            href="/fleet"
+            className="font-medium text-gray-700 transition hover:text-[#087f9f]"
           >
-            Bus / Tempo Enquiry
-          </a>
+            Fleet
+          </Link>
 
-          <a
-            href="/my-bookings"
-            className="focus-ring rounded-full px-3 py-2 text-sm font-semibold text-asphalt/70 hover:text-asphalt"
+          <Link
+            href="/destinations"
+            className="font-medium text-gray-700 transition hover:text-[#087f9f]"
           >
-            My Bookings
-          </a>
+            Destinations
+          </Link>
+
+          <Link
+            href="/contact"
+            className="rounded-full bg-[#087f9f] px-5 py-2.5 font-semibold text-white transition hover:bg-[#066b85]"
+          >
+            Contact
+          </Link>
+
         </nav>
 
-        {/* Contact Buttons */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Mobile Contact Button */}
+        <Link
+          href="/contact"
+          className="rounded-full bg-[#087f9f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#066b85] md:hidden"
+        >
+          Contact
+        </Link>
 
-          {/* Phone */}
-          <a
-            href={`tel:${PHONE}`}
-            className="focus-ring hidden items-center gap-2 rounded-full bg-route-teal px-4 py-2 text-sm font-semibold text-white hover:bg-asphalt sm:flex"
-          >
-            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-bold tracking-wide">
-              24x7
-            </span>
-
-            {PHONE}
-          </a>
-
-          {/* WhatsApp */}
-          <a
-            href={`https://wa.me/${WHATSAPP}`}
-            target="_blank"
-            rel="noreferrer"
-            className="focus-ring flex items-center gap-2 rounded-full bg-amber px-4 py-2 text-sm font-bold text-white hover:bg-amber-dark"
-          >
-            WhatsApp
-          </a>
-
-        </div>
       </div>
     </header>
   );

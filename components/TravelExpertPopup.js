@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 
 const PHONE =
   process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
-  '+917975630631';
+  '+917349016519';
 
 const PHONE_DISPLAY =
   process.env.NEXT_PUBLIC_BUSINESS_PHONE_DISPLAY ||
-  '079756 30631';
+  '073490 16519';
 
 export default function TravelExpertPopup() {
   const [open, setOpen] = useState(false);

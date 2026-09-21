@@ -14,7 +14,7 @@ import PopularRoutes from "@/components/PopularRoutes";
 import TravelExpertPopup from "@/components/TravelExpertPopup";
 
 /* =========================================================
-   HERO IMAGES
+  HERO IMAGES
 ========================================================= */
 
 const HERO_IMAGES = [
@@ -28,7 +28,7 @@ const HERO_IMAGES = [
 const AUTO_SLIDE_TIME = 2000;
 
 /* =========================================================
-   HOME PAGE
+  HOME PAGE
 ========================================================= */
 
 export default function Home() {
@@ -155,7 +155,7 @@ export default function Home() {
 }
 
 /* =========================================================
-   PREMIUM HERO SLIDER
+  PREMIUM HERO SLIDER
 ========================================================= */
 
 function PremiumHeroSlider() {
@@ -166,7 +166,7 @@ function PremiumHeroSlider() {
   const touchEndX = useRef(null);
 
   /* =======================================================
-     NEXT SLIDE
+    NEXT SLIDE
   ======================================================= */
 
   const nextSlide = useCallback(() => {
@@ -176,7 +176,7 @@ function PremiumHeroSlider() {
   }, []);
 
   /* =======================================================
-     PREVIOUS SLIDE
+    PREVIOUS SLIDE
   ======================================================= */
 
   const previousSlide = useCallback(() => {
@@ -189,7 +189,7 @@ function PremiumHeroSlider() {
   }, []);
 
   /* =======================================================
-     AUTOMATIC SLIDER
+    AUTOMATIC SLIDER
   ======================================================= */
 
   useEffect(() => {
@@ -207,7 +207,7 @@ function PremiumHeroSlider() {
   }, [paused, nextSlide]);
 
   /* =======================================================
-     KEYBOARD CONTROLS
+    KEYBOARD CONTROLS
   ======================================================= */
 
   useEffect(() => {
@@ -235,7 +235,7 @@ function PremiumHeroSlider() {
   }, [nextSlide, previousSlide]);
 
   /* =======================================================
-     TOUCH START
+    TOUCH START
   ======================================================= */
 
   const handleTouchStart = (event) => {
@@ -246,7 +246,7 @@ function PremiumHeroSlider() {
   };
 
   /* =======================================================
-     TOUCH MOVE
+    TOUCH MOVE
   ======================================================= */
 
   const handleTouchMove = (event) => {
@@ -255,7 +255,7 @@ function PremiumHeroSlider() {
   };
 
   /* =======================================================
-     TOUCH END
+    TOUCH END
   ======================================================= */
 
   const handleTouchEnd = () => {
@@ -288,7 +288,7 @@ function PremiumHeroSlider() {
   };
 
   /* =======================================================
-     RENDER
+    RENDER
   ======================================================= */
 
   return (
@@ -411,7 +411,7 @@ function PremiumHeroSlider() {
 }
 
 /* =========================================================
-   FEATURE ITEM
+  FEATURE ITEM
 ========================================================= */
 
 function FeatureItem({
