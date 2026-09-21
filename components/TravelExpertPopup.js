@@ -3,12 +3,10 @@
 import { useEffect, useState } from 'react';
 
 const PHONE =
-  process.env.NEXT_PUBLIC_BUSINESS_PHONE ||
-  '+917349016519';
+  '917349016519';
 
 const PHONE_DISPLAY =
-  process.env.NEXT_PUBLIC_BUSINESS_PHONE_DISPLAY ||
-  '073490 16519';
+  '7349016519';
 
 export default function TravelExpertPopup() {
   const [open, setOpen] = useState(false);
@@ -50,9 +48,7 @@ export default function TravelExpertPopup() {
       onClick={() => setOpen(false)}
     >
 
-      {/* =================================================
-          PREMIUM POPUP
-      ================================================= */}
+      {/* PREMIUM POPUP */}
 
       <div
         onClick={(e) => e.stopPropagation()}
@@ -69,16 +65,11 @@ export default function TravelExpertPopup() {
         "
       >
 
-        {/* =================================================
-            TOP ORANGE ACCENT
-        ================================================= */}
+        {/* TOP ORANGE ACCENT */}
 
         <div className="h-1.5 w-full bg-[#f47a20]" />
 
-
-        {/* =================================================
-            CLOSE BUTTON
-        ================================================= */}
+        {/* CLOSE BUTTON */}
 
         <button
           type="button"
@@ -112,10 +103,7 @@ export default function TravelExpertPopup() {
           ×
         </button>
 
-
-        {/* =================================================
-            MAIN CONTENT
-        ================================================= */}
+        {/* MAIN CONTENT */}
 
         <div
           className="
@@ -128,9 +116,7 @@ export default function TravelExpertPopup() {
           "
         >
 
-          {/* =================================================
-              LARGE LOGO — 200%
-          ================================================= */}
+          {/* LOGO */}
 
           <div className="flex justify-center">
 
@@ -148,10 +134,7 @@ export default function TravelExpertPopup() {
 
           </div>
 
-
-          {/* =================================================
-              LABEL
-          ================================================= */}
+          {/* LABEL */}
 
           <div className="mt-7 text-center">
 
@@ -167,10 +150,7 @@ export default function TravelExpertPopup() {
               Premium Travel Assistance
             </p>
 
-
-            {/* =================================================
-                HEADING
-            ================================================= */}
+            {/* HEADING */}
 
             <h2
               className="
@@ -187,10 +167,7 @@ export default function TravelExpertPopup() {
               Your Travel Expert
             </h2>
 
-
-            {/* =================================================
-                24×7
-            ================================================= */}
+            {/* 24×7 */}
 
             <div className="mt-2">
 
@@ -207,10 +184,7 @@ export default function TravelExpertPopup() {
 
             </div>
 
-
-            {/* =================================================
-                DESCRIPTION
-            ================================================= */}
+            {/* DESCRIPTION */}
 
             <p
               className="
@@ -230,10 +204,7 @@ export default function TravelExpertPopup() {
 
           </div>
 
-
-          {/* =================================================
-              DIVIDER
-          ================================================= */}
+          {/* DIVIDER */}
 
           <div
             className="
@@ -252,10 +223,7 @@ export default function TravelExpertPopup() {
 
           </div>
 
-
-          {/* =================================================
-              PHONE LABEL
-          ================================================= */}
+          {/* PHONE LABEL */}
 
           <div className="text-center">
 
@@ -271,13 +239,10 @@ export default function TravelExpertPopup() {
               Call Our Travel Desk
             </p>
 
-
-            {/* =================================================
-                PHONE NUMBER
-            ================================================= */}
+            {/* PHONE NUMBER */}
 
             <a
-              href={`tel:${PHONE}`}
+              href={`tel:+91${PHONE}`}
               className="
                 mt-2
                 block
@@ -296,15 +261,12 @@ export default function TravelExpertPopup() {
 
           </div>
 
-
-          {/* =================================================
-              CALL BUTTON
-          ================================================= */}
+          {/* CALL BUTTON */}
 
           <div className="mt-7">
 
             <a
-              href={`tel:${PHONE}`}
+              href={`tel:+91${PHONE}`}
               className="
                 flex
                 w-full
@@ -333,10 +295,7 @@ export default function TravelExpertPopup() {
 
           </div>
 
-
-          {/* =================================================
-              SERVICES LINE
-          ================================================= */}
+          {/* SERVICES LINE */}
 
           <p
             className="
@@ -354,10 +313,7 @@ export default function TravelExpertPopup() {
 
         </div>
 
-
-        {/* =================================================
-            BOTTOM NAVY ACCENT
-        ================================================= */}
+        {/* BOTTOM NAVY ACCENT */}
 
         <div className="h-1 w-full bg-[#102c46]" />
 
