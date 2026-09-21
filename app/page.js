@@ -40,6 +40,13 @@ const SHOWCASE_IMAGES = [
 ];
 
 /* =========================================================
+   CERTIFICATE IMAGE
+========================================================= */
+
+const CERTIFICATE_IMAGE =
+  "/images/dynamic-travels-certificate.jpg";
+
+/* =========================================================
    HOME PAGE
 ========================================================= */
 
@@ -118,8 +125,11 @@ export default function Home() {
       {/* POPULAR ROUTES */}
       <PopularRoutes />
 
-      {/* SHOWCASE GALLERY */}
+      {/* SLOW MARQUEE GALLERY */}
       <TravelShowcaseGallery />
+
+      {/* DYNAMIC TRAVELS CERTIFICATE */}
+      <DynamicTravelsCertificate />
 
       {/* FOOTER */}
       <Footer />
@@ -160,7 +170,9 @@ function PremiumHeroSlider() {
       nextSlide();
     }, AUTO_SLIDE_TIME);
 
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearInterval(timer);
+    };
   }, [paused, nextSlide]);
 
   useEffect(() => {
@@ -232,7 +244,7 @@ function PremiumHeroSlider() {
           return (
             <div
               key={image}
-              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-[1200ms] ${
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-[1200ms] ease-in-out ${
                 isActive
                   ? "z-10 opacity-100"
                   : "z-0 opacity-0"
@@ -254,7 +266,7 @@ function PremiumHeroSlider() {
         type="button"
         onClick={previousSlide}
         aria-label="Previous image"
-        className="absolute left-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl text-white backdrop-blur-md transition hover:bg-black/50 md:flex"
+        className="absolute left-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl leading-none text-white shadow-lg backdrop-blur-md transition hover:bg-black/50 md:flex"
       >
         ‹
       </button>
@@ -264,7 +276,7 @@ function PremiumHeroSlider() {
         type="button"
         onClick={nextSlide}
         aria-label="Next image"
-        className="absolute right-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl text-white backdrop-blur-md transition hover:bg-black/50 md:flex"
+        className="absolute right-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl leading-none text-white shadow-lg backdrop-blur-md transition hover:bg-black/50 md:flex"
       >
         ›
       </button>
@@ -279,14 +291,15 @@ function PremiumHeroSlider() {
               key={index}
               type="button"
               aria-label={`Show image ${index + 1}`}
+              aria-current={isActive ? "true" : "false"}
               onClick={() => setActiveIndex(index)}
               className="flex h-6 items-center justify-center"
             >
               <span
-                className={`block rounded-full transition-all ${
+                className={`block rounded-full transition-all duration-500 ${
                   isActive
-                    ? "h-1.5 w-8 bg-white"
-                    : "h-1.5 w-2.5 bg-white/60"
+                    ? "h-1.5 w-8 bg-white shadow-md"
+                    : "h-1.5 w-2.5 bg-white/60 hover:bg-white/90"
                 }`}
               />
             </button>
@@ -299,6 +312,7 @@ function PremiumHeroSlider() {
 
 /* =========================================================
    TRAVEL SHOWCASE GALLERY
+   SLOW MARQUEE
 ========================================================= */
 
 function TravelShowcaseGallery() {
@@ -308,8 +322,8 @@ function TravelShowcaseGallery() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-white py-12 sm:py-16">
-      <div className="showcase-track">
+    <section className="w-full overflow-hidden bg-white py-14 sm:py-16">
+      <div className="showcase-marquee">
         {images.map((image, index) => (
           <div
             key={`${image}-${index}`}
@@ -326,14 +340,15 @@ function TravelShowcaseGallery() {
       </div>
 
       <style jsx>{`
-        .showcase-track {
+        .showcase-marquee {
           display: flex;
           width: max-content;
-          gap: 18px;
-          animation: showcase-scroll 35s linear infinite;
+          gap: 20px;
+          animation: slow-marquee 75s linear infinite;
+          will-change: transform;
         }
 
-        .showcase-track:hover {
+        .showcase-marquee:hover {
           animation-play-state: paused;
         }
 
@@ -345,44 +360,87 @@ function TravelShowcaseGallery() {
           border-radius: 18px;
           background: #f3f4f6;
           border: 1px solid rgba(0, 0, 0, 0.08);
-          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-          transition: transform 0.35s ease;
-        }
-
-        .showcase-card:hover {
-          transform: scale(1.035);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
         .showcase-card img {
+          display: block;
           width: 100%;
           height: 100%;
-          display: block;
           object-fit: cover;
           user-select: none;
+          pointer-events: none;
         }
 
-        @keyframes showcase-scroll {
+        @keyframes slow-marquee {
           from {
             transform: translateX(0);
           }
 
           to {
-            transform: translateX(calc(-50% - 9px));
+            transform: translateX(calc(-50% - 10px));
           }
         }
 
         @media (max-width: 640px) {
-          .showcase-track {
+          .showcase-marquee {
             gap: 12px;
-            animation-duration: 28s;
+            animation-duration: 65s;
           }
 
           .showcase-card {
-            width: 185px;
+            width: 180px;
             border-radius: 14px;
           }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+          .showcase-marquee {
+            animation-play-state: paused;
+          }
+        }
       `}</style>
+    </section>
+  );
+}
+
+/* =========================================================
+   DYNAMIC TRAVELS CERTIFICATE
+========================================================= */
+
+function DynamicTravelsCertificate() {
+  return (
+    <section className="relative overflow-hidden bg-[#f7f4ef] px-5 py-16 sm:px-8 lg:px-10">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        {/* CERTIFICATE IMAGE */}
+        <div className="overflow-hidden rounded-3xl border border-[#d7c7ae] bg-white p-3 shadow-[0_18px_60px_rgba(74,55,30,0.12)]">
+          <img
+            src={CERTIFICATE_IMAGE}
+            alt="Dynamic Travels ISO 9001:2015 certificate"
+            loading="lazy"
+            className="h-auto w-full rounded-2xl object-contain"
+          />
+        </div>
+
+        {/* DESCRIPTION */}
+        <div>
+          <span className="inline-flex rounded-full border border-[#c9a66b] bg-[#fffaf0] px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#9b6b2d]">
+            Quality & Trust
+          </span>
+
+          <h2 className="mt-5 text-3xl font-bold tracking-tight text-[#172b35] sm:text-4xl">
+            Quality you can trust. Journeys you can enjoy.
+          </h2>
+
+          <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
+            Dynamic Travels proudly showcases its ISO 9001:2015 certification for car rental services, reflecting our commitment to dependable service and consistent quality.
+          </p>
+
+          <p className="mt-3 max-w-xl text-base leading-8 text-slate-600">
+            From city rides to outstation journeys, we combine comfortable vehicles, professional service, and thoughtful travel support for every customer.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
