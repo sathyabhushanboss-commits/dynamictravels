@@ -14,7 +14,7 @@ import PopularRoutes from "@/components/PopularRoutes";
 import TravelExpertPopup from "@/components/TravelExpertPopup";
 
 /* =========================================================
-  HERO IMAGES
+   HERO IMAGES
 ========================================================= */
 
 const HERO_IMAGES = [
@@ -28,31 +28,34 @@ const HERO_IMAGES = [
 const AUTO_SLIDE_TIME = 2000;
 
 /* =========================================================
-  HOME PAGE
+   SHOWCASE IMAGES
+========================================================= */
+
+const SHOWCASE_IMAGES = [
+  "/images/1dt.jpeg",
+  "/images/2dt.jpeg",
+  "/images/3dt.jpeg",
+  "/images/4dt.jpeg",
+  "/images/5dt.jpeg",
+];
+
+/* =========================================================
+   HOME PAGE
 ========================================================= */
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-white">
-
-      {/* Travel Expert Popup */}
       <TravelExpertPopup />
 
-      {/* Header */}
       <Header />
 
-      {/* =====================================================
-          PREMIUM IMAGE HERO
-      ===================================================== */}
-
+      {/* HERO */}
       <section className="relative w-full overflow-hidden bg-[#f4f5f6]">
         <PremiumHeroSlider />
       </section>
 
-      {/* =====================================================
-          BOOKING CARD
-      ===================================================== */}
-
+      {/* BOOKING FORM */}
       <div
         id="book"
         className="relative z-20 mx-auto -mt-8 max-w-6xl scroll-mt-24 px-4 sm:-mt-12 sm:px-6 lg:px-8"
@@ -60,33 +63,19 @@ export default function Home() {
         <SearchForm />
       </div>
 
-      {/* =====================================================
-          TRUST BAR
-      ===================================================== */}
-
+      {/* TRUST BAR */}
       <div className="relative z-10">
         <TrustBar />
       </div>
 
-      {/* =====================================================
-          SERVICES
-      ===================================================== */}
-
+      {/* SERVICES */}
       <ServicesGrid />
 
-      {/* =====================================================
-          PROMO
-      ===================================================== */}
-
+      {/* PROMO */}
       <PromoStrip />
 
-      {/* =====================================================
-          WHY CHOOSE US
-      ===================================================== */}
-
+      {/* WHY CHOOSE US */}
       <section className="relative overflow-hidden bg-[#087f9f] text-white">
-
-        {/* Background glow */}
         <div
           className="pointer-events-none absolute -right-32 -top-32 h-72 w-72 rounded-full bg-white/10 blur-3xl"
           aria-hidden="true"
@@ -98,64 +87,48 @@ export default function Home() {
         />
 
         <div className="relative mx-auto grid max-w-7xl gap-0 px-5 sm:px-8 lg:grid-cols-4 lg:px-10">
-
-          {/* Feature 1 */}
           <FeatureItem
             title="Pay your way"
             description="After the ride, 25% or full advance"
           />
 
-          {/* Feature 2 */}
           <FeatureItem
             title="Real people, fast replies"
             description="Call or WhatsApp a local team"
           />
 
-          {/* Feature 3 */}
           <FeatureItem
             title="Transparent billing"
             description="What you see is what you pay"
           />
 
-          {/* Feature 4 */}
           <FeatureItem
             title="Every trip type"
             description="Local, outstation & one-way"
           />
-
         </div>
       </section>
 
-      {/* =====================================================
-          ABOUT / SEO
-      ===================================================== */}
-
+      {/* ABOUT SEO */}
       <AboutSeo />
 
-      {/* =====================================================
-          FAQ
-      ===================================================== */}
-
+      {/* FAQ */}
       <Faq />
 
-      {/* =====================================================
-          POPULAR ROUTES
-      ===================================================== */}
-
+      {/* POPULAR ROUTES */}
       <PopularRoutes />
 
-      {/* =====================================================
-          FOOTER
-      ===================================================== */}
+      {/* SHOWCASE GALLERY */}
+      <TravelShowcaseGallery />
 
+      {/* FOOTER */}
       <Footer />
-
     </main>
   );
 }
 
 /* =========================================================
-  PREMIUM HERO SLIDER
+   PREMIUM HERO SLIDER
 ========================================================= */
 
 function PremiumHeroSlider() {
@@ -165,19 +138,11 @@ function PremiumHeroSlider() {
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
 
-  /* =======================================================
-    NEXT SLIDE
-  ======================================================= */
-
   const nextSlide = useCallback(() => {
     setActiveIndex((current) => {
       return (current + 1) % HERO_IMAGES.length;
     });
   }, []);
-
-  /* =======================================================
-    PREVIOUS SLIDE
-  ======================================================= */
 
   const previousSlide = useCallback(() => {
     setActiveIndex((current) => {
@@ -188,27 +153,15 @@ function PremiumHeroSlider() {
     });
   }, []);
 
-  /* =======================================================
-    AUTOMATIC SLIDER
-  ======================================================= */
-
   useEffect(() => {
-    if (paused) {
-      return;
-    }
+    if (paused) return;
 
     const timer = window.setInterval(() => {
       nextSlide();
     }, AUTO_SLIDE_TIME);
 
-    return () => {
-      window.clearInterval(timer);
-    };
+    return () => window.clearInterval(timer);
   }, [paused, nextSlide]);
-
-  /* =======================================================
-    KEYBOARD CONTROLS
-  ======================================================= */
 
   useEffect(() => {
     const handleKeyboard = (event) => {
@@ -221,22 +174,12 @@ function PremiumHeroSlider() {
       }
     };
 
-    window.addEventListener(
-      "keydown",
-      handleKeyboard
-    );
+    window.addEventListener("keydown", handleKeyboard);
 
     return () => {
-      window.removeEventListener(
-        "keydown",
-        handleKeyboard
-      );
+      window.removeEventListener("keydown", handleKeyboard);
     };
   }, [nextSlide, previousSlide]);
-
-  /* =======================================================
-    TOUCH START
-  ======================================================= */
 
   const handleTouchStart = (event) => {
     touchStartX.current =
@@ -245,18 +188,10 @@ function PremiumHeroSlider() {
     touchEndX.current = null;
   };
 
-  /* =======================================================
-    TOUCH MOVE
-  ======================================================= */
-
   const handleTouchMove = (event) => {
     touchEndX.current =
       event.touches[0]?.clientX ?? null;
   };
-
-  /* =======================================================
-    TOUCH END
-  ======================================================= */
 
   const handleTouchEnd = () => {
     if (
@@ -267,15 +202,9 @@ function PremiumHeroSlider() {
     }
 
     const distance =
-      touchStartX.current -
-      touchEndX.current;
+      touchStartX.current - touchEndX.current;
 
-    const minimumSwipeDistance = 50;
-
-    if (
-      Math.abs(distance) >=
-      minimumSwipeDistance
-    ) {
+    if (Math.abs(distance) >= 50) {
       if (distance > 0) {
         nextSlide();
       } else {
@@ -287,10 +216,6 @@ function PremiumHeroSlider() {
     touchEndX.current = null;
   };
 
-  /* =======================================================
-    RENDER
-  ======================================================= */
-
   return (
     <div
       className="relative w-full select-none"
@@ -300,139 +225,182 @@ function PremiumHeroSlider() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-
-      {/* ===================================================
-          IMAGE CONTAINER
-
-          aspect-video = 16:9
-
-          object-contain = NO CROPPING
-      =================================================== */}
-
       <div className="relative aspect-video w-full overflow-hidden bg-[#f3f4f6]">
-
         {HERO_IMAGES.map((image, index) => {
-          const isActive =
-            index === activeIndex;
+          const isActive = index === activeIndex;
 
           return (
             <div
               key={image}
-              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-[1200ms] ease-in-out ${
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-[1200ms] ${
                 isActive
                   ? "z-10 opacity-100"
                   : "z-0 opacity-0"
               }`}
             >
-
               <img
                 src={image}
                 alt=""
                 draggable="false"
                 className="h-full w-full object-contain"
               />
-
             </div>
           );
         })}
-
       </div>
 
-      {/* ===================================================
-          DESKTOP PREVIOUS BUTTON
-      =================================================== */}
-
+      {/* PREVIOUS BUTTON */}
       <button
         type="button"
         onClick={previousSlide}
         aria-label="Previous image"
-        className="absolute left-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl leading-none text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-black/50 md:flex lg:left-7"
+        className="absolute left-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl text-white backdrop-blur-md transition hover:bg-black/50 md:flex"
       >
-        <span className="-mt-1">
-          ‹
-        </span>
+        ‹
       </button>
 
-      {/* ===================================================
-          DESKTOP NEXT BUTTON
-      =================================================== */}
-
+      {/* NEXT BUTTON */}
       <button
         type="button"
         onClick={nextSlide}
         aria-label="Next image"
-        className="absolute right-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl leading-none text-white shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-black/50 md:flex lg:right-7"
+        className="absolute right-4 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/30 text-3xl text-white backdrop-blur-md transition hover:bg-black/50 md:flex"
       >
-        <span className="-mt-1">
-          ›
-        </span>
+        ›
       </button>
 
-      {/* ===================================================
-          SLIDER INDICATORS
-      =================================================== */}
-
-      <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 sm:bottom-5">
-
+      {/* INDICATORS */}
+      <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
         {HERO_IMAGES.map((_, index) => {
-          const isActive =
-            index === activeIndex;
+          const isActive = index === activeIndex;
 
           return (
             <button
               key={index}
               type="button"
               aria-label={`Show image ${index + 1}`}
-              aria-current={
-                isActive
-                  ? "true"
-                  : "false"
-              }
-              onClick={() =>
-                setActiveIndex(index)
-              }
+              onClick={() => setActiveIndex(index)}
               className="flex h-6 items-center justify-center"
             >
               <span
-                className={`block rounded-full transition-all duration-500 ${
+                className={`block rounded-full transition-all ${
                   isActive
-                    ? "h-1.5 w-8 bg-white shadow-md"
-                    : "h-1.5 w-2.5 bg-white/60 hover:bg-white/90"
+                    ? "h-1.5 w-8 bg-white"
+                    : "h-1.5 w-2.5 bg-white/60"
                 }`}
               />
             </button>
           );
         })}
-
       </div>
-
     </div>
   );
 }
 
 /* =========================================================
-  FEATURE ITEM
+   TRAVEL SHOWCASE GALLERY
 ========================================================= */
 
-function FeatureItem({
-  title,
-  description,
-}) {
+function TravelShowcaseGallery() {
+  const images = [
+    ...SHOWCASE_IMAGES,
+    ...SHOWCASE_IMAGES,
+  ];
+
   return (
-    <div className="group border-b border-white/10 py-7 lg:border-b-0 lg:border-r lg:px-7 lg:py-10 first:lg:pl-0 last:lg:border-r-0">
-
-      <div>
-
-        <h3 className="font-display text-base font-bold">
-          {title}
-        </h3>
-
-        <p className="mt-1.5 text-sm leading-6 text-white/70">
-          {description}
-        </p>
-
+    <section className="relative w-full overflow-hidden bg-white py-12 sm:py-16">
+      <div className="showcase-track">
+        {images.map((image, index) => (
+          <div
+            key={`${image}-${index}`}
+            className="showcase-card"
+          >
+            <img
+              src={image}
+              alt=""
+              loading="lazy"
+              draggable="false"
+            />
+          </div>
+        ))}
       </div>
 
+      <style jsx>{`
+        .showcase-track {
+          display: flex;
+          width: max-content;
+          gap: 18px;
+          animation: showcase-scroll 35s linear infinite;
+        }
+
+        .showcase-track:hover {
+          animation-play-state: paused;
+        }
+
+        .showcase-card {
+          width: 220px;
+          aspect-ratio: 9 / 16;
+          flex-shrink: 0;
+          overflow: hidden;
+          border-radius: 18px;
+          background: #f3f4f6;
+          border: 1px solid rgba(0, 0, 0, 0.08);
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+          transition: transform 0.35s ease;
+        }
+
+        .showcase-card:hover {
+          transform: scale(1.035);
+        }
+
+        .showcase-card img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
+          user-select: none;
+        }
+
+        @keyframes showcase-scroll {
+          from {
+            transform: translateX(0);
+          }
+
+          to {
+            transform: translateX(calc(-50% - 9px));
+          }
+        }
+
+        @media (max-width: 640px) {
+          .showcase-track {
+            gap: 12px;
+            animation-duration: 28s;
+          }
+
+          .showcase-card {
+            width: 185px;
+            border-radius: 14px;
+          }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* =========================================================
+   FEATURE ITEM
+========================================================= */
+
+function FeatureItem({ title, description }) {
+  return (
+    <div className="group border-b border-white/10 py-7 lg:border-b-0 lg:border-r lg:px-7 lg:py-10 first:lg:pl-0 last:lg:border-r-0">
+      <h3 className="font-display text-base font-bold">
+        {title}
+      </h3>
+
+      <p className="mt-1.5 text-sm leading-6 text-white/70">
+        {description}
+      </p>
     </div>
   );
 }
