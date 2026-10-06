@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   Dynamic Travels — orange · cream · sky blue
+   Fonts are self-hosted via @fontsource (imported in app/layout.js),
+   so there is no Google Fonts network request.
+========================================================= */
+
+:root {
+  --font-display: 'Outfit Variable', 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --brand: #e67817;
+  --brand-dark: #c2600b;
+  --cream: #fff8ee;
+  --sky: #0ea5e9;
+  --sky-deep: #0369a1;
+  --ink: #0f2a3d;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: rgba(230, 120, 23, 0.22);
+}
+
+/* Dotted "route" divider */
+.route-line {
+  position: relative;
+  height: 2px;
+  background-image: linear-gradient(90deg, #e67817 0%, #0ea5e9 100%);
+  background-size: 14px 2px;
+  background-repeat: repeat-x;
+  opacity: 0.7;
+}
+
+.ticket-notch {
+  position: relative;
+}
+.ticket-notch::before,
+.ticket-notch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--cream);
+  border-radius: 999px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ticket-notch::before { left: -10px; }
+.ticket-notch::after { right: -10px; }
+
+.focus-ring:focus-visible {
+  outline: 3px solid #e67817;
+  outline-offset: 2px;
+}
+
+.ntt-input {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 2px solid rgba(15, 42, 61, 0.1);
+  background: white;
+  padding: 0.7rem 0.95rem;
+  font-size: 16px; /* 16px stops iOS from zooming into inputs */
+  line-height: 1.4;
+  color: #0f2a3d;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ntt-input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+}
+
+.ntt-input[type='date'],
+.ntt-input[type='time'] {
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 3rem;
+  line-height: 1.5;
+}
+
+/* ---- Hero helpers ---- */
+
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  inset: -25% -10% -30% -10%;
+  pointer-events: none;
+  background:
+    radial-gradient(45% 40% at 18% 22%, rgba(14, 165, 233, 0.22), transparent 70%),
+    radial-gradient(50% 45% at 84% 12%, rgba(230, 120, 23, 0.24), transparent 72%),
+    radial-gradient(40% 40% at 60% 90%, rgba(125, 211, 252, 0.18), transparent 70%);
+}
+
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(75% 75% at 50% 40%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(75% 75% at 50% 40%, #000 40%, transparent 100%);
+}
+
+.dot-grid-dark {
+  background-image: radial-gradient(rgba(15, 42, 61, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #f59e42 0%, #e67817 45%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gradient-sky {
+  background: linear-gradient(100deg, #7dd3fc 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.glass-light {
+  background: rgba(255, 253, 248, 0.82);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(241, 223, 198, 0.9);
+}
+
+.route-flow {
+  stroke-dasharray: 2 12;
+  animation: ntt-dash 14s linear infinite;
+}
+@keyframes ntt-dash {
+  to {
+    stroke-dashoffset: -600;
+  }
+}
+
+.rise {
+  animation: ntt-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-1 { animation-delay: 0.05s; }
+.rise-2 { animation-delay: 0.15s; }
+.rise-3 { animation-delay: 0.25s; }
+.rise-4 { animation-delay: 0.35s; }
+@keyframes ntt-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Shimmer sweep on primary buttons */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.8s ease;
+}
+.btn-shine:hover::after {
+  transform: translateX(120%);
+}
+
+/* Horizontal scrollers */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Wavy section divider */
+.wave-top {
+  -webkit-mask: radial-gradient(40px 22px at 50% 0, #0000 98%, #000) 50% / 78px 100%;
+  mask: radial-gradient(40px 22px at 50% 0, #0000 98%, #000) 50% / 78px 100%;
+}
+
+/* Safe-area spacing for the mobile action bar */
+.pb-safe {
+  padding-bottom: max(0.6rem, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

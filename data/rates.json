@@ -1,0 +1,588 @@
+{
+  "vehicles": {
+    "sedan": {
+      "label": "Sedan",
+      "subLabel": "Swift Dzire, Etios, Nissan Sunny or equivalent",
+      "seats": 4,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "minKm": 30,
+        "ratePerKm": 34
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 4,
+            "km": 40,
+            "price": 1500
+          },
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 2500
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 3600
+          }
+        ],
+        "extraKmRate": 20,
+        "extraHrRate": 200
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 13,
+        "da": 400
+      },
+      "oneWay": {
+        "minKm": 150,
+        "ratePerKm": 17,
+        "da": 400
+      }
+    },
+    "suv": {
+      "label": "SUV",
+      "subLabel": "Ertiga, Innova or equivalent",
+      "seats": 7,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "minKm": 30,
+        "ratePerKm": 50
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 4,
+            "km": 40,
+            "price": 2500
+          },
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 3100
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 4800
+          }
+        ],
+        "extraKmRate": 25,
+        "extraHrRate": 250
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 17,
+        "da": 400
+      },
+      "oneWay": {
+        "minKm": 150,
+        "ratePerKm": 22,
+        "da": 400
+      }
+    },
+    "crysta": {
+      "label": "Innova Crysta",
+      "subLabel": "Premium 7-seater",
+      "seats": 7,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "minKm": 30,
+        "ratePerKm": 63
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 4000
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 6000
+          }
+        ],
+        "extraKmRate": 30,
+        "extraHrRate": 300
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 22,
+        "da": 500
+      },
+      "oneWay": {
+        "minKm": 150,
+        "ratePerKm": 30,
+        "da": 400
+      }
+    },
+    "tt_ac": {
+      "label": "Tempo Traveller — AC",
+      "subLabel": "12–17 seater, AC",
+      "seats": 12,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 5600,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 5600
+          }
+        ],
+        "extraKmRate": 30,
+        "extraHrRate": 300
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 25,
+        "da": 500
+      }
+    },
+    "tt_non_ac": {
+      "label": "Tempo Traveller — Non AC",
+      "subLabel": "12–17 seater, Non AC",
+      "seats": 12,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 4900,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 4900
+          }
+        ],
+        "extraKmRate": 30,
+        "extraHrRate": 300
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 22,
+        "da": 500
+      }
+    },
+    "innova_hycross_hybrid": {
+      "label": "Innova Hycross Hybrid",
+      "subLabel": "Premium hybrid 7-seater",
+      "seats": 7,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "minKm": 30,
+        "ratePerKm": 66
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 4300
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 6400
+          }
+        ],
+        "extraKmRate": 32,
+        "extraHrRate": 320
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 24,
+        "da": 500
+      },
+      "oneWay": {
+        "minKm": 150,
+        "ratePerKm": 32,
+        "da": 400
+      }
+    },
+    "urbania_9_seater": {
+      "label": "Force Urbania 9 Seater",
+      "subLabel": "Luxury van, AC, pushback seats",
+      "seats": 9,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 6200,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 6800
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 9500
+          }
+        ],
+        "extraKmRate": 36,
+        "extraHrRate": 400
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 30,
+        "da": 600
+      }
+    },
+    "urbania_12_seater": {
+      "label": "Force Urbania 12 Seater",
+      "subLabel": "Luxury van, AC, pushback seats",
+      "seats": 12,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 6800,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 7500
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 10500
+          }
+        ],
+        "extraKmRate": 38,
+        "extraHrRate": 400
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 32,
+        "da": 600
+      }
+    },
+    "urbania_16_seater": {
+      "label": "Force Urbania 16 Seater",
+      "subLabel": "Luxury van, AC, pushback seats",
+      "seats": 16,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 7500,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 8200
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 11500
+          }
+        ],
+        "extraKmRate": 40,
+        "extraHrRate": 450
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 35,
+        "da": 600
+      }
+    },
+    "urbania_17_seater": {
+      "label": "Force Urbania 17 Seater",
+      "subLabel": "Luxury van, AC, pushback seats",
+      "seats": 17,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 7800,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 8500
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 12000
+          }
+        ],
+        "extraKmRate": 40,
+        "extraHrRate": 450
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 36,
+        "da": 600
+      }
+    },
+    "urbania_luxury": {
+      "label": "Force Urbania Luxury",
+      "subLabel": "Premium lounge interiors, 10 seater",
+      "seats": 10,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 8500,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 9500
+          },
+          {
+            "hrs": 12,
+            "km": 120,
+            "price": 13500
+          }
+        ],
+        "extraKmRate": 45,
+        "extraHrRate": 500
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 42,
+        "da": 700
+      }
+    },
+    "tempo_traveller_20_seater_ac": {
+      "label": "Tempo Traveller 20 Seater — AC",
+      "subLabel": "20 seater, AC",
+      "seats": 20,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 6500,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 6500
+          }
+        ],
+        "extraKmRate": 34,
+        "extraHrRate": 350
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 28,
+        "da": 500
+      }
+    },
+    "tempo_traveller_20_seater_non_ac": {
+      "label": "Tempo Traveller 20 Seater — Non AC",
+      "subLabel": "20 seater, Non AC",
+      "seats": 20,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation"
+      ],
+      "enquiryOnly": false,
+      "airport": {
+        "flat": 5800,
+        "minKm": 30
+      },
+      "local": {
+        "packages": [
+          {
+            "hrs": 8,
+            "km": 80,
+            "price": 5800
+          }
+        ],
+        "extraKmRate": 32,
+        "extraHrRate": 350
+      },
+      "outstation": {
+        "minKmPerDay": 300,
+        "ratePerKm": 25,
+        "da": 500
+      }
+    },
+    "mini_bus_21_ac": {
+      "label": "Mini Bus 21 Seater — AC",
+      "subLabel": "Group travel",
+      "seats": 21,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway",
+        "group"
+      ],
+      "enquiryOnly": true
+    },
+    "mini_bus_21_non_ac": {
+      "label": "Mini Bus 21 Seater — Non AC",
+      "subLabel": "Group travel",
+      "seats": 21,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway",
+        "group"
+      ],
+      "enquiryOnly": true
+    },
+    "mini_bus_33_ac": {
+      "label": "Mini Bus 33 Seater — AC",
+      "subLabel": "Group travel",
+      "seats": 33,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway",
+        "group"
+      ],
+      "enquiryOnly": true
+    },
+    "mini_bus_33_non_ac": {
+      "label": "Mini Bus 33 Seater — Non AC",
+      "subLabel": "Group travel",
+      "seats": 33,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway",
+        "group"
+      ],
+      "enquiryOnly": true
+    },
+    "bus_50_ac": {
+      "label": "Bus 50 Seater — AC",
+      "subLabel": "Group travel",
+      "seats": 50,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway",
+        "group"
+      ],
+      "enquiryOnly": true
+    },
+    "bus_50_non_ac": {
+      "label": "Bus 50 Seater — Non AC",
+      "subLabel": "Group travel",
+      "seats": 50,
+      "tripTypes": [
+        "airport",
+        "local",
+        "outstation",
+        "oneway",
+        "group"
+      ],
+      "enquiryOnly": true
+    }
+  },
+  "settings": {
+    "gstRate": 0.05
+  },
+  "seededIds": [
+    "sedan",
+    "suv",
+    "crysta",
+    "tt_ac",
+    "tt_non_ac",
+    "innova_hycross_hybrid",
+    "urbania_9_seater",
+    "urbania_12_seater",
+    "urbania_16_seater",
+    "urbania_17_seater",
+    "urbania_luxury",
+    "tempo_traveller_20_seater_ac",
+    "tempo_traveller_20_seater_non_ac",
+    "mini_bus_21_ac",
+    "mini_bus_21_non_ac",
+    "mini_bus_33_ac",
+    "mini_bus_33_non_ac",
+    "bus_50_ac",
+    "bus_50_non_ac"
+  ]
+}
