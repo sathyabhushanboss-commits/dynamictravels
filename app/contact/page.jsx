@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import RouteDivider from "@/components/RouteDivider";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { 
   Phone, Mail, MapPin, Clock, Send, CheckCircle, 
   ArrowRight, Star, Award, ShieldCheck, Car, Bus, 
@@ -413,6 +415,8 @@ export default function ContactPage() {
 
   return (
     <>
+      <Header />
+
       {/* Hidden SEO Keywords */}
       <div className="hidden" aria-hidden="true">
         {seoKeywords.map((keyword, index) => (
@@ -828,6 +832,7 @@ export default function ContactPage() {
           </div>
         </section>
       </div>
+      <Footer />
     </>
   );
 }
