@@ -3,6 +3,7 @@ import "@fontsource-variable/plus-jakarta-sans";
 import "./globals.css";
 import FloatingContact from "@/components/FloatingContact";
 import CookieConsent from "@/components/CookieConsent";
+import LeadCapture from "@/components/LeadCapture";
 import { ScrollProgress } from "@/components/Motion";
 import { SITE, fullAddress } from "@/lib/site";
 
@@ -179,6 +180,7 @@ export default function RootLayout({ children }) {
         <ScrollProgress />
         {children}
         <FloatingContact />
+        <LeadCapture />
         <CookieConsent />
       </body>
     </html>

@@ -5,6 +5,7 @@ import LogoutButton from './LogoutButton';
 
 const TABS = [
   { href: '/admin/dashboard', label: 'Bookings' },
+  { href: '/admin/leads', label: 'Leads' },
   { href: '/admin/rates', label: 'Rates & Fleet' },
 ];
 

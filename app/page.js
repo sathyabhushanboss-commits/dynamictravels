@@ -34,7 +34,6 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SearchForm from "@/components/SearchForm";
-import TravelExpertPopup from "@/components/TravelExpertPopup";
 import { Reveal, Stagger, StaggerItem, ParallaxImage, Parallax, CountUp } from "@/components/Motion";
 import { WhatsAppIcon } from "@/components/FloatingContact";
 import { SITE, telLink, mailLink, waLink } from "@/lib/site";
@@ -52,14 +51,13 @@ const pic = (name) => ({
 });
 
 const HERO_SLIDES = [
-  { name: "1", place: "Mysore Palace", caption: "Heritage tours across Karnataka" },
-  { name: "2", place: "Vidhana Soudha, Bengaluru", caption: "City rides & airport transfers" },
-  { name: "3", place: "Weekend resort getaways", caption: "Innova Crysta & Hycross for families" },
-  { name: "4", place: "Coastal Karnataka", caption: "Urbania & Tempo Travellers for groups" },
-  { name: "5", place: "Premium arrivals", caption: "Luxury travel for weddings & events" },
+  { name: "1", place: "Mysore Palace" },
+  { name: "2", place: "Vidhana Soudha, Bengaluru" },
+  { name: "3", place: "Weekend resort getaways" },
+  { name: "4", place: "Coastal Karnataka" },
+  { name: "5", place: "Premium arrivals" },
 ];
 
-const ROTATING = ["Airport Transfers", "Outstation Trips", "Tempo Travellers", "Group Tours", "Corporate Travel"];
 
 /* =========================================================
    CONTENT
@@ -135,7 +133,6 @@ function Hero() {
   const ref = useRef(null);
   const reduce = useReducedMotion();
   const [slide, setSlide] = useState(0);
-  const [word, setWord] = useState(0);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
@@ -144,11 +141,7 @@ function Hero() {
 
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), 6000);
-    const w = setInterval(() => setWord((s) => (s + 1) % ROTATING.length), 2400);
-    return () => {
-      clearInterval(t);
-      clearInterval(w);
-    };
+    return () => clearInterval(t);
   }, []);
 
   const current = HERO_SLIDES[slide];
@@ -168,15 +161,15 @@ function Hero() {
             animate={{ opacity: 1, scale: 1.02 }}
             exit={{ opacity: 0 }}
             transition={{ opacity: { duration: 1.2 }, scale: { duration: 7, ease: "easeOut" } }}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover contrast-[1.05] saturate-[1.15]"
           />
         </AnimatePresence>
       </motion.div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/95 via-ink/70 to-ink/10" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 via-transparent to-ink/40" />
-      <div className="dot-grid absolute inset-0 -z-10 opacity-60" />
+      {/* Overlays — light, so the photo carries the hero; just enough on the
+          left/bottom for the heading and the booking widget to stay legible */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/80 via-ink/35 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/70 via-transparent to-ink/25" />
 
       <motion.div
         style={reduce ? undefined : { y: textY, opacity: fade }}
@@ -198,35 +191,20 @@ function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="max-w-4xl font-display text-[2.6rem] font-extrabold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-[5.2rem]"
+          className="max-w-4xl font-display text-[2.6rem] font-extrabold leading-[1.02] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] sm:text-6xl lg:text-[5.2rem]"
         >
           Travel Bengaluru &amp; South India{" "}
           <span className="text-gradient">the premium way.</span>
         </motion.h1>
 
-        <motion.div
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.45 }}
-          className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-lg text-white/80 sm:text-xl"
+          className="mt-6 max-w-xl text-lg text-white/90 drop-shadow sm:text-xl"
         >
-          <span>Book</span>
-          <span className="relative inline-flex h-8 min-w-[12ch] overflow-hidden sm:h-9">
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={ROTATING[word]}
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: "0%", opacity: 1 }}
-                exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.45 }}
-                className="absolute left-0 font-bold text-sky-light"
-              >
-                {ROTATING[word]}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-          <span className="w-full text-base text-white/65 sm:w-auto sm:text-lg">with live fares in under 60 seconds.</span>
-        </motion.div>
+          Chauffeur-driven cabs, Urbania &amp; Tempo Travellers — live fares in 60 seconds.
+        </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -275,10 +253,10 @@ function Hero() {
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
-              className="hidden items-center gap-2 text-sm text-white/70 sm:flex"
+              className="glass hidden items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-semibold text-white sm:flex"
             >
               <MapPin size={15} className="text-brand-light" />
-              <span className="font-semibold text-white">{current.place}</span> — {current.caption}
+              {current.place}
             </motion.p>
           </AnimatePresence>
         </div>
@@ -649,16 +627,14 @@ function FleetShowcase() {
 
 function ParallaxBanner() {
   return (
-    <ParallaxImage src="/images/web/4.webp" alt="Dynamic Travels Urbania at sunset by the coast" strength={16} overlay="bg-gradient-to-r from-ink/90 via-ink/60 to-sky-deep/40" className="min-h-[70vh]">
+    <ParallaxImage src="/images/web/4.webp" alt="Dynamic Travels Urbania at sunset by the coast" strength={16} overlay="bg-gradient-to-r from-ink/75 via-ink/30 to-transparent" className="min-h-[70vh]">
       <div className="mx-auto flex min-h-[70vh] max-w-7xl flex-col justify-center px-5 py-24 sm:px-8">
         <Reveal>
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-light">Weekend plans?</p>
           <h2 className="mt-4 max-w-3xl font-display text-4xl font-extrabold leading-tight text-white sm:text-6xl">
             Every road trip, <span className="text-gradient-sky">beautifully handled.</span>
           </h2>
-          <p className="mt-5 max-w-xl text-lg leading-8 text-white/75">
-            Coastal drives, hill-station escapes and temple trails — with a driver who knows the way and a vehicle that fits your whole group.
-          </p>
+          <p className="mt-5 max-w-xl text-lg text-white/90">Coastal drives, hill escapes and temple trails — we handle the road.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/destinations" className="btn-shine inline-flex items-center gap-2 rounded-full bg-brand px-7 py-4 font-bold text-white shadow-brand hover:bg-brand-dark">
               Explore Destinations <ArrowRight size={18} />
@@ -787,13 +763,13 @@ function DestinationsPreview() {
                 className={`group relative block h-full overflow-hidden rounded-[28px] shadow-soft ${i === 0 ? "min-h-[340px] lg:min-h-[520px]" : "min-h-[250px]"}`}
               >
                 <img {...pic(d.img)} sizes="(min-width:1024px) 50vw, 100vw" alt={`${d.name} trip from Bengaluru`} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-[1.2s] group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
                     <MapPin size={12} /> {d.km}
                   </span>
                   <h3 className={`mt-3 font-display font-extrabold text-white ${i === 0 ? "text-3xl sm:text-4xl" : "text-2xl"}`}>{d.name}</h3>
-                  <p className="mt-1 text-sm text-white/75">{d.text}</p>
+                  <p className="mt-1 truncate text-sm text-white/85">{d.text}</p>
                   <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-sky-light opacity-0 transition group-hover:opacity-100">
                     Book this trip <ArrowRight size={15} />
                   </span>
@@ -979,7 +955,6 @@ function FinalCta() {
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-cream">
-      <TravelExpertPopup />
       <Header />
       <Hero />
       <BookingSection />

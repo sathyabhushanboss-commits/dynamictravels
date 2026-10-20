@@ -21,6 +21,10 @@ function WhatsAppIcon({ className = 'h-5 w-5' }) {
 
 export { WhatsAppIcon };
 
+// Tapping a WhatsApp button opens the chat widget (components/LeadCapture.js).
+export const WHATSAPP_EVENT = 'dt-whatsapp';
+const openChat = () => window.dispatchEvent(new Event(WHATSAPP_EVENT));
+
 export default function FloatingContact() {
   const pathname = usePathname() || '';
   const [showTop, setShowTop] = useState(false);
@@ -36,7 +40,7 @@ export default function FloatingContact() {
   if (pathname.startsWith('/admin')) return null;
 
   const items = [
-    { id: 'wa', label: 'WhatsApp us', href: waLink(), external: true, cls: 'bg-[#25D366] text-white', icon: <WhatsAppIcon className="h-6 w-6" /> },
+    { id: 'wa', label: 'Chat on WhatsApp', href: waLink(), onClick: openChat, cls: 'bg-[#25D366] text-white', icon: <WhatsAppIcon className="h-6 w-6" /> },
     { id: 'call', label: 'Call now', href: telLink, cls: 'bg-sky text-white', icon: <Phone size={21} /> },
     { id: 'mail', label: 'Email us', href: mailLink(), cls: 'bg-brand text-white', icon: <Mail size={21} /> },
   ];
@@ -66,8 +70,7 @@ export default function FloatingContact() {
           <motion.a
             key={it.id}
             href={it.href}
-            target={it.external ? '_blank' : undefined}
-            rel={it.external ? 'noreferrer' : undefined}
+            onClick={it.onClick ? (e) => { e.preventDefault(); it.onClick(); } : undefined}
             aria-label={it.label}
             onMouseEnter={() => setHover(it.id)}
             onMouseLeave={() => setHover(null)}
@@ -105,7 +108,7 @@ export default function FloatingContact() {
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-sky text-white"><Phone size={17} /></span>
           Call
         </a>
-        <a href={waLink()} target="_blank" rel="noreferrer" className="flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-[11px] font-bold text-[#128C4B]">
+        <a href={waLink()} onClick={(e) => { e.preventDefault(); openChat(); }} className="flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-[11px] font-bold text-[#128C4B]">
           <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#25D366] text-white"><WhatsAppIcon className="h-5 w-5" /></span>
           WhatsApp
         </a>
