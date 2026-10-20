@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
@@ -75,13 +75,15 @@ const SERVICES = [
 ];
 
 const FLEET = [
-  { name: "Sedan", seats: 4, img: "sedan11", tag: "Swift Dzire · Etios", rate: "sedan" },
-  { name: "Innova Crysta", seats: 7, img: "crysta11", tag: "Premium MPV", rate: "crysta" },
-  { name: "Innova Hycross", seats: 7, img: "hybrid11", tag: "Hybrid comfort", rate: "innova_hycross_hybrid" },
-  { name: "Toyota Innova", seats: 7, img: "innova11", tag: "Family favourite", rate: "suv" },
-  { name: "Force Urbania", seats: 17, img: "urbania11", tag: "9 – 17 seater luxury", rate: "urbania_12_seater" },
-  { name: "Tempo Traveller", seats: 20, img: "tt11", tag: "AC & Non-AC", rate: "tt_ac" },
-  { name: "Mini Bus", seats: 33, img: "mini11", tag: "21 & 33 seater", rate: "mini_bus_33_ac" },
+  // `from` is the advertised starting price; null means "Get quote".
+  { name: "Sedan", seats: 4, img: "sedan11", tag: "Swift Dzire · Etios", from: 2200 },
+  { name: "Innova Crysta", seats: 7, img: "crysta11", tag: "Premium MPV", from: 3000 },
+  { name: "Innova Hycross", seats: 7, img: "hybrid11", tag: "Hybrid comfort", from: 3500 },
+  // No Fortuner photo yet — add fortuner11 to /public/images/web and set img.
+  { name: "Toyota Fortuner", seats: 7, img: null, tag: "Premium SUV", from: 5500 },
+  { name: "Force Urbania", seats: 17, img: "urbania11", tag: "9 – 17 seater luxury", from: 9000 },
+  { name: "Tempo Traveller", seats: 12, img: "tt11", tag: "12 seater · AC ₹9,000 · Non-AC ₹8,600", from: 8600 },
+  { name: "Mini Bus", seats: 21, img: "mini11", tag: "21 seater · on enquiry", from: null },
 ];
 
 const WHY = [
@@ -119,7 +121,7 @@ const MOMENTS = [
 const FAQS = [
   { q: "How do I book a cab with Dynamic Travels?", a: "Use the booking form on this page — choose your trip type, enter pickup and drop, pick a date and select a vehicle. You can also call or WhatsApp us 24/7 and we'll book it for you." },
   { q: "Do you provide Bangalore airport taxi service at night?", a: "Yes. Airport pickups and drops to Kempegowda International Airport run 24 hours a day, 7 days a week, including early-morning and late-night flights." },
-  { q: "Which vehicles can I rent?", a: "Sedans (Swift Dzire, Etios), Toyota Innova, Innova Crysta, Innova Hycross, Force Urbania (9–17 seater), Tempo Travellers (12–20 seater), mini buses (21 & 33 seater) and 50-seater coaches." },
+  { q: "Which vehicles can I rent?", a: "Sedans (Swift Dzire, Etios), Innova Crysta, Innova Hycross, Toyota Fortuner, Force Urbania (9–17 seater), 12-seater Tempo Travellers, 21-seater mini buses and 50-seater coaches." },
   { q: "How is the fare calculated?", a: "Fares are based on distance and trip type — per-km rates for airport and outstation trips, fixed hourly packages for local rentals — plus 5% GST. Tolls, state permits and parking are extra as applicable. You see the full fare before you confirm." },
   { q: "Can I pay after the ride?", a: "Yes. Choose 'Pay after ride' and settle with the driver by cash or UPI. You can also lock your booking with a 25% advance or pay 100% online through Razorpay." },
   { q: "Do you arrange outstation and multi-day tours?", a: "Absolutely. We run round trips and multi-day tours from Bengaluru to Mysore, Coorg, Ooty, Wayanad, Chikmagalur, Hampi, Goa, Kerala, Tirupati and across South India." },
@@ -366,9 +368,8 @@ function TrustStrip() {
     { name: "Innova Crysta", img: "crysta11", seats: 7 },
     { name: "Innova Hycross", img: "hybrid11", seats: 7 },
     { name: "Force Urbania", img: "urbania11", seats: 17 },
-    { name: "Tempo Traveller", img: "tt11", seats: 20 },
-    { name: "Mini Bus", img: "mini11", seats: 33 },
-    { name: "Toyota Innova", img: "innova11", seats: 7 },
+    { name: "Tempo Traveller", img: "tt11", seats: 12 },
+    { name: "Mini Bus", img: "mini11", seats: 21 },
   ];
   const rowB = [
     { name: "Urbania Luxury", img: "urbania12", seats: 10 },
@@ -377,7 +378,6 @@ function TrustStrip() {
     { name: "Hycross Hybrid", img: "hybrid12", seats: 7 },
     { name: "Sedan Comfort", img: "sedan12", seats: 4 },
     { name: "Coach & Bus", img: "mini12", seats: 50 },
-    { name: "Innova", img: "innova12", seats: 7 },
   ];
   const perks = ["Pay after ride", "Live fares + GST", "24/7 support", "Verified drivers"];
 
@@ -569,25 +569,6 @@ function Services() {
 
 function FleetShowcase() {
   const scroller = useRef(null);
-  const [rates, setRates] = useState(null);
-
-  useEffect(() => {
-    fetch("/api/rates")
-      .then((r) => r.json())
-      .then(setRates)
-      .catch(() => {});
-  }, []);
-
-  const fromPrice = useMemo(() => {
-    const out = {};
-    FLEET.forEach((f) => {
-      const v = rates?.vehicles?.[f.rate];
-      if (!v || v.enquiryOnly) return;
-      const opts = [v.local?.packages?.[0]?.price, v.airport?.flat || (v.airport ? v.airport.minKm * v.airport.ratePerKm : null)].filter(Boolean);
-      if (opts.length) out[f.name] = Math.min(...opts);
-    });
-    return out;
-  }, [rates]);
 
   const scrollBy = (dir) => scroller.current?.scrollBy({ left: dir * 360, behavior: "smooth" });
 
@@ -621,7 +602,11 @@ function FleetShowcase() {
             className="group w-[82vw] max-w-[360px] shrink-0 snap-start overflow-hidden rounded-[28px] bg-white shadow-soft transition hover:shadow-lift sm:w-[340px]"
           >
             <div className="relative aspect-[16/10] overflow-hidden bg-cream-deep">
-              <img {...pic(f.img)} sizes="360px" alt={`${f.name} rental in Bengaluru — Dynamic Travels`} loading="lazy" decoding="async" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+              {f.img ? (
+                <img {...pic(f.img)} sizes="360px" alt={`${f.name} rental in Bengaluru — Dynamic Travels`} loading="lazy" decoding="async" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+              ) : (
+                <div className="flex h-full items-center justify-center text-sm font-semibold uppercase tracking-[0.18em] text-ink-mute">Photos coming soon</div>
+              )}
               <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-ink">
                 <Users size={13} className="text-sky-deep" /> {f.seats} seats
               </span>
@@ -633,10 +618,10 @@ function FleetShowcase() {
                   <p className="mt-1 text-sm text-ink-mute">{f.tag}</p>
                 </div>
                 <div className="text-right">
-                  {fromPrice[f.name] ? (
+                  {f.from ? (
                     <>
                       <p className="text-[10px] font-bold uppercase tracking-widest text-ink-mute">From</p>
-                      <p className="font-display text-xl font-extrabold text-brand">{formatINR(fromPrice[f.name])}</p>
+                      <p className="font-display text-xl font-extrabold text-brand">{formatINR(f.from)}</p>
                     </>
                   ) : (
                     <span className="rounded-full bg-sky-soft px-3 py-1 text-[11px] font-bold text-sky-deep">Get quote</span>

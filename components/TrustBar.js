@@ -5,7 +5,7 @@ export default function TrustBar() {
     'HYCROSS / HYBRID',
     'TEMPO TRAVELLER',
     'LUXURY BUS',
-    'INNOVA',
+    'FORTUNER',
     'ERTIGA',
     'SEDAN',
   ];

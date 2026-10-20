@@ -57,11 +57,11 @@ const fleetCategories = [
     description:
       "Premium Urbania vehicles for airport transfers, corporate travel, family tours and outstation journeys.",
     vehicles: [
-      { name: "Urbania 9 Seater", folder: "urbania-9-seater", seats: 9, images: imgs("urbania") },
-      { name: "Urbania 12 Seater", folder: "urbania-12-seater", seats: 12, images: imgs("urbania") },
-      { name: "Urbania 16 Seater", folder: "urbania-16-seater", seats: 16, images: imgs("urbania") },
-      { name: "Urbania 17 Seater", folder: "urbania-17-seater", seats: 17, images: imgs("urbania") },
-      { name: "Urbania Luxury", folder: "urbania-luxury", seats: 10, images: imgs("urbania") },
+      { name: "Urbania 9 Seater", folder: "urbania-9-seater", seats: 9, from: 9000, images: imgs("urbania") },
+      { name: "Urbania 12 Seater", folder: "urbania-12-seater", seats: 12, from: 9000, images: imgs("urbania") },
+      { name: "Urbania 16 Seater", folder: "urbania-16-seater", seats: 16, from: 9000, images: imgs("urbania") },
+      { name: "Urbania 17 Seater", folder: "urbania-17-seater", seats: 17, from: 9000, images: imgs("urbania") },
+      { name: "Urbania Luxury", folder: "urbania-luxury", seats: 10, from: 9000, images: imgs("urbania") },
     ],
   },
   {
@@ -70,9 +70,9 @@ const fleetCategories = [
     description:
       "Comfortable sedans for airport transfers, city rides, business travel and outstation journeys.",
     vehicles: [
-      { name: "Sedan", folder: "sedan", seats: 4, images: imgs("sedan"), options: [{ label: "Standard", rateIds: ["sedan"] }] },
-      { name: "Swift Dzire", folder: "swift-dzire", seats: 4, images: imgs("sedan"), options: [{ label: "Standard", rateIds: ["swift_dzire", "sedan"] }] },
-      { name: "Toyota Etios", folder: "toyota-etios", seats: 4, images: imgs("sedan"), options: [{ label: "Standard", rateIds: ["toyota_etios", "sedan"] }] },
+      { name: "Sedan", folder: "sedan", seats: 4, from: 2200, images: imgs("sedan"), options: [{ label: "Standard", rateIds: ["sedan"] }] },
+      { name: "Swift Dzire", folder: "swift-dzire", seats: 4, from: 2200, images: imgs("sedan"), options: [{ label: "Standard", rateIds: ["swift_dzire", "sedan"] }] },
+      { name: "Toyota Etios", folder: "toyota-etios", seats: 4, from: 2200, images: imgs("sedan"), options: [{ label: "Standard", rateIds: ["toyota_etios", "sedan"] }] },
     ],
   },
   {
@@ -81,8 +81,19 @@ const fleetCategories = [
     description:
       "Comfortable and reliable premium MPVs for family trips, business travel and long-distance journeys.",
     vehicles: [
-      { name: "Innova Crysta", folder: "innova-crysta", seats: 7, images: imgs("crysta"), options: [{ label: "Standard", rateIds: ["innova_crysta", "crysta"] }] },
-      { name: "Toyota Innova", folder: "toyota-innova", seats: 7, images: imgs("innova"), options: [{ label: "Standard", rateIds: ["toyota_innova", "innova", "suv"] }] },
+      { name: "Innova Crysta", folder: "innova-crysta", seats: 7, from: 3000, images: imgs("crysta"), options: [{ label: "Standard", rateIds: ["innova_crysta", "crysta"] }] },
+    ],
+  },
+  {
+    category: "Toyota Fortuner",
+    anchor: "fortuner",
+    description:
+      "Premium full-size SUV for executive travel, weddings and long-distance journeys in style.",
+    vehicles: [
+      // No Fortuner photos yet — add fortuner11…14 to /public/images/web and
+      // switch this to imgs("fortuner"). Until a "fortuner" rate card exists
+      // in /admin/rates it books as a quote request.
+      { name: "Toyota Fortuner", folder: "fortuner", seats: 7, from: 5500, images: [], options: [{ label: "Standard", rateIds: ["toyota_fortuner", "fortuner"] }] },
     ],
   },
   {
@@ -91,7 +102,7 @@ const fleetCategories = [
     description:
       "Spacious hybrid-friendly travel comfort for city rides, airport transfers and outstation trips.",
     vehicles: [
-      { name: "Innova Hycross Hybrid", folder: "innova-hycross", seats: 7, images: imgs("hybrid"), options: [{ label: "Standard", rateIds: ["innova_hycross_hybrid", "innova_hycross", "hycross"] }] },
+      { name: "Innova Hycross Hybrid", folder: "innova-hycross", seats: 7, from: 3500, images: imgs("hybrid"), options: [{ label: "Standard", rateIds: ["innova_hycross_hybrid", "innova_hycross", "hycross"] }] },
     ],
   },
   {
@@ -102,23 +113,11 @@ const fleetCategories = [
     vehicles: [
       {
         name: "Tempo Traveller 12 Seater", folder: "tt-12-seater", seats: 12, images: imgs("tt"),
+        // Non AC ₹8,600 · AC ₹9,000
+        from: 8600,
         options: [
           { label: "AC", rateIds: ["tempo_traveller_12_seater_ac", "tt_ac"] },
           { label: "Non AC", rateIds: ["tempo_traveller_12_seater_non_ac", "tt_non_ac"] },
-        ],
-      },
-      {
-        name: "Tempo Traveller 17 Seater", folder: "tt-17-seater", seats: 17, images: imgs("tt"),
-        options: [
-          { label: "AC", rateIds: ["tempo_traveller_17_seater_ac", "tt_ac"] },
-          { label: "Non AC", rateIds: ["tempo_traveller_17_seater_non_ac", "tt_non_ac"] },
-        ],
-      },
-      {
-        name: "Tempo Traveller 20 Seater", folder: "tt-20-seater", seats: 20, images: imgs("tt"),
-        options: [
-          { label: "AC", rateIds: ["tempo_traveller_20_seater_ac"] },
-          { label: "Non AC", rateIds: ["tempo_traveller_20_seater_non_ac"] },
         ],
       },
     ],
@@ -130,12 +129,10 @@ const fleetCategories = [
       "Group travel solutions for schools, events, corporate trips, tours and large families.",
     vehicles: [
       {
-        name: "Mini Bus", folder: "mini-bus", seats: 33, images: imgs("mini"),
+        name: "Mini Bus 21 Seater", folder: "mini-bus", seats: 21, images: imgs("mini"),
         options: [
-          { label: "21 Seater AC", rateIds: ["mini_bus_21_ac"] },
-          { label: "21 Seater Non AC", rateIds: ["mini_bus_21_non_ac"] },
-          { label: "33 Seater AC", rateIds: ["mini_bus_33_ac"] },
-          { label: "33 Seater Non AC", rateIds: ["mini_bus_33_non_ac"] },
+          { label: "AC", rateIds: ["mini_bus_21_ac"] },
+          { label: "Non AC", rateIds: ["mini_bus_21_non_ac"] },
         ],
       },
       {
@@ -194,8 +191,10 @@ function VehicleCard({ vehicle, rates, onBook }) {
     return () => clearInterval(timer);
   }, [images.length]);
 
-  // "From ₹X" teaser, using the cheapest priced option (airport or local)
+  // "From ₹X" teaser: the advertised starting price if set, otherwise the
+  // cheapest priced option (airport or local)
   const fromPrice = useMemo(() => {
+    if (vehicle.from) return vehicle.from;
     if (!rates) return null;
     let best = null;
     for (const opt of optionsFor(vehicle)) {
