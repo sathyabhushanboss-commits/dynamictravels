@@ -35,7 +35,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SearchForm from "@/components/SearchForm";
 import { Reveal, Stagger, StaggerItem, ParallaxImage, Parallax, CountUp } from "@/components/Motion";
-import { WhatsAppIcon } from "@/components/FloatingContact";
+import { WhatsAppIcon, WHATSAPP_EVENT } from "@/components/FloatingContact";
 import { SITE, telLink, mailLink, waLink } from "@/lib/site";
 import { getCustomer, getRecentBookings } from "@/lib/cookies";
 import { formatINR } from "@/lib/pricing";
@@ -48,6 +48,10 @@ import { formatINR } from "@/lib/pricing";
 const pic = (name) => ({
   src: `/images/web/${name}.webp`,
   srcSet: `/images/web/${name}-sm.webp 800w, /images/web/${name}.webp 1600w`,
+});
+const destPic = (slug) => ({
+  src: `/images/destinations/${slug}.webp`,
+  srcSet: `/images/destinations/${slug}-sm.webp 800w, /images/destinations/${slug}.webp 1600w`,
 });
 
 const HERO_SLIDES = [
@@ -101,10 +105,11 @@ const STEPS = [
 ];
 
 const DESTINATIONS = [
-  { name: "Mysore", km: "145 km", img: "1", text: "Palace, Chamundi Hills & Brindavan Gardens" },
-  { name: "Bengaluru City Tour", km: "Local", img: "2", text: "Vidhana Soudha, Lalbagh, Cubbon Park & more" },
-  { name: "Coorg & Chikmagalur", km: "250 km", img: "3", text: "Coffee estates, waterfalls and misty hills" },
-  { name: "Gokarna & Coastal Karnataka", km: "480 km", img: "4", text: "Beaches, temples and sunset drives" },
+  // img → /public/images/destinations/<img>.webp (photo credits: /image-credits)
+  { name: "Mysore", km: "145 km", img: "mysore", text: "Palace, Chamundi Hills & Brindavan Gardens" },
+  { name: "Bengaluru City Tour", km: "Local", img: "bengaluru", text: "Vidhana Soudha, Lalbagh, Cubbon Park & more" },
+  { name: "Coorg & Chikmagalur", km: "250 km", img: "coorg", text: "Coffee estates, waterfalls and misty hills" },
+  { name: "Gokarna & Coastal Karnataka", km: "480 km", img: "gokarna", text: "Beaches, temples and sunset drives" },
 ];
 
 const MOMENTS = [
@@ -166,62 +171,35 @@ function Hero() {
         </AnimatePresence>
       </motion.div>
 
-      {/* Overlays — light, so the photo carries the hero; just enough on the
-          left/bottom for the heading and the booking widget to stay legible */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/80 via-ink/35 to-transparent" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/70 via-transparent to-ink/25" />
+      {/* Overlay — only a soft fade at the bottom so the CTAs and the booking
+          widget stay legible; the photo carries the hero */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/75 via-ink/5 to-ink/20" />
 
       <motion.div
         style={reduce ? undefined : { y: textY, opacity: fade }}
-        className="mx-auto flex min-h-[92svh] max-w-7xl flex-col justify-center px-5 pb-36 pt-16 sm:px-8 lg:min-h-[94vh] lg:pb-44"
+        className="mx-auto flex min-h-[92svh] max-w-7xl flex-col items-center justify-end px-5 pb-40 pt-16 sm:px-8 lg:min-h-[94vh] lg:pb-52"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="glass mb-6 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white sm:text-sm"
-        >
-          <ShieldCheck size={16} className="text-sky-light" />
-          ISO 9001:2015 Certified · Bengaluru
-          <span className="mx-1 h-1 w-1 rounded-full bg-white/50" />
-          <span className="text-brand-light">24/7</span>
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="max-w-4xl font-display text-[2.6rem] font-extrabold leading-[1.02] tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] sm:text-6xl lg:text-[5.2rem]"
-        >
-          Travel Bengaluru &amp; South India{" "}
-          <span className="text-gradient">the premium way.</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.45 }}
-          className="mt-6 max-w-xl text-lg text-white/90 drop-shadow sm:text-xl"
-        >
-          Chauffeur-driven cabs, Urbania &amp; Tempo Travellers — live fares in 60 seconds.
-        </motion.p>
+        {/* Visually hidden — keeps the page's main heading for SEO */}
+        <h1 className="sr-only">Dynamic Travels — premium cabs, Tempo Travellers &amp; bus rentals in Bengaluru</h1>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-9 flex flex-wrap gap-3"
+          transition={{ delay: 0.3 }}
+          className="flex flex-wrap justify-center gap-3"
         >
           <a
             href="#book"
-            className="btn-shine inline-flex items-center gap-2 rounded-full bg-brand px-7 py-4 text-base font-bold text-white shadow-brand transition hover:-translate-y-0.5 hover:bg-brand-dark"
+            className="btn-shine inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-bold text-white shadow-brand transition hover:-translate-y-0.5 hover:bg-brand-dark"
           >
             Book Your Ride <ArrowRight size={19} />
           </a>
           <a
             href={waLink()}
-            target="_blank"
-            rel="noreferrer"
+            onClick={(e) => {
+              e.preventDefault();
+              window.dispatchEvent(new Event(WHATSAPP_EVENT));
+            }}
             className="glass inline-flex items-center gap-2 rounded-full px-6 py-4 text-base font-bold text-white transition hover:bg-white/20"
           >
             <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> WhatsApp
@@ -234,49 +212,17 @@ function Hero() {
           </a>
         </motion.div>
 
-        {/* Slide caption + controls */}
-        <div className="mt-12 flex items-center gap-5">
-          <div className="flex gap-2">
-            {HERO_SLIDES.map((s, i) => (
-              <button
-                key={s.name}
-                type="button"
-                onClick={() => setSlide(i)}
-                aria-label={`Show ${s.place}`}
-                className={`h-1.5 rounded-full transition-all duration-500 ${i === slide ? "w-10 bg-brand" : "w-4 bg-white/40 hover:bg-white/70"}`}
-              />
-            ))}
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={current.place}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              className="glass hidden items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-semibold text-white sm:flex"
-            >
-              <MapPin size={15} className="text-brand-light" />
-              {current.place}
-            </motion.p>
-          </AnimatePresence>
-        </div>
-      </motion.div>
-
-      {/* Floating stat cards (desktop) */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="absolute bottom-52 right-28 hidden animate-float rounded-3xl bg-white/95 p-5 shadow-lift xl:block"
-      >
-        <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-soft text-sky-deep">
-            <Car size={24} />
-          </span>
-          <div>
-            <p className="font-display text-2xl font-extrabold text-ink">8+ vehicle types</p>
-            <p className="text-sm text-ink-mute">Sedan to 50-seater coach</p>
-          </div>
+        {/* Slide controls */}
+        <div className="mt-8 flex gap-2">
+          {HERO_SLIDES.map((s, i) => (
+            <button
+              key={s.name}
+              type="button"
+              onClick={() => setSlide(i)}
+              aria-label={`Show ${s.place}`}
+              className={`h-1.5 rounded-full transition-all duration-500 ${i === slide ? "w-10 bg-brand" : "w-4 bg-white/50 hover:bg-white/80"}`}
+            />
+          ))}
         </div>
       </motion.div>
     </section>
@@ -309,7 +255,7 @@ function BookingInner() {
         </div>
         {recent[0] && (
           <Link
-            href="/my-bookings"
+            href="/account"
             className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white"
           >
             <CalendarCheck size={14} className="text-sky-light" /> Last booking {recent[0].id}
@@ -762,7 +708,7 @@ function DestinationsPreview() {
                 href={`/?tripType=outstation&drop=${encodeURIComponent(d.name.split(" ")[0])}#book`}
                 className={`group relative block h-full overflow-hidden rounded-[28px] shadow-soft ${i === 0 ? "min-h-[340px] lg:min-h-[520px]" : "min-h-[250px]"}`}
               >
-                <img {...pic(d.img)} sizes="(min-width:1024px) 50vw, 100vw" alt={`${d.name} trip from Bengaluru`} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-[1.2s] group-hover:scale-110" />
+                <img {...destPic(d.img)} sizes="(min-width:1024px) 50vw, 100vw" alt={`${d.name} trip from Bengaluru`} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition duration-[1.2s] group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">

@@ -27,217 +27,217 @@ const destinations = [
   {
     name: "Bengaluru",
     slug: "bengaluru",
-    image: "/images/destinations/bengaluru.jpg",
+    image: "/images/destinations/bengaluru-sm.webp",
     description: "Bengaluru city tours, airport transfers, business travel and local sightseeing.",
     highlights: ["Bangalore Palace", "Lalbagh", "Cubbon Park"],
   },
   {
     name: "Mysore",
     slug: "mysore",
-    image: "/images/destinations/mysore.jpg",
+    image: "/images/destinations/mysore-sm.webp",
     description: "Discover royal heritage, palaces, gardens and cultural attractions.",
     highlights: ["Mysore Palace", "Chamundi Hills", "Brindavan Gardens"],
   },
   {
     name: "Coorg",
     slug: "coorg",
-    image: "/images/destinations/coorg.jpg",
+    image: "/images/destinations/coorg-sm.webp",
     description: "Explore coffee plantations, misty hills and peaceful nature escapes.",
     highlights: ["Abbey Falls", "Raja’s Seat", "Coffee Estates"],
   },
   {
     name: "Nagarhole",
     slug: "nagarhole",
-    image: "/images/destinations/nagarhole.jpg",
+    image: "/images/destinations/nagarhole-sm.webp",
     description: "Experience wildlife, forests and scenic national park surroundings.",
     highlights: ["Nagarhole National Park", "Safari", "Kabini Region"],
   },
   {
     name: "Wayanad",
     slug: "wayanad",
-    image: "/images/destinations/wayanad.jpg",
+    image: "/images/destinations/wayanad-sm.webp",
     description: "Enjoy green hills, waterfalls, caves and beautiful countryside.",
     highlights: ["Edakkal Caves", "Soochipara Falls", "Banasura Sagar Dam"],
   },
   {
     name: "Ooty",
     slug: "ooty",
-    image: "/images/destinations/ooty.jpg",
+    image: "/images/destinations/ooty-sm.webp",
     description: "Travel through tea gardens, mountain roads and cool hill-station landscapes.",
     highlights: ["Ooty Lake", "Tea Gardens", "Doddabetta Peak"],
   },
   {
     name: "Bandipur",
     slug: "bandipur",
-    image: "/images/destinations/bandipur.jpg",
+    image: "/images/destinations/bandipur-sm.webp",
     description: "Plan a wildlife and nature trip through the Bandipur region.",
     highlights: ["Bandipur National Park", "Safari", "Forest Routes"],
   },
   {
     name: "Shravanabelagola",
     slug: "shravanabelagola",
-    image: "/images/destinations/shravanabelagola.jpg",
+    image: "/images/destinations/shravanabelagola-sm.webp",
     description: "Visit historic Jain heritage sites and the famous monolithic statue.",
     highlights: ["Gommateshwara Statue", "Vindhyagiri Hill", "Chandragiri Hill"],
   },
   {
     name: "Belur",
     slug: "belur",
-    image: "/images/destinations/belur.jpg",
+    image: "/images/destinations/belur-sm.webp",
     description: "Explore remarkable Hoysala architecture and historic temples.",
     highlights: ["Chennakeshava Temple", "Hoysala Architecture", "Heritage Walk"],
   },
   {
     name: "Halebidu",
     slug: "halebidu",
-    image: "/images/destinations/halebidu.jpg",
+    image: "/images/destinations/halebidu-sm.webp",
     description: "Discover intricate temple architecture and Karnataka’s heritage history.",
     highlights: ["Hoysaleswara Temple", "Kedareshwara Temple", "Heritage Sites"],
   },
   {
     name: "Chikmagalur",
     slug: "chikmagalur",
-    image: "/images/destinations/chikmagalur.jpg",
+    image: "/images/destinations/chikmagalur-sm.webp",
     description: "Enjoy coffee country, waterfalls and scenic mountain viewpoints.",
     highlights: ["Mullayanagiri", "Coffee Plantations", "Jhari Falls"],
   },
   {
     name: "Dharmasthala",
     slug: "dharmasthala",
-    image: "/images/destinations/dharmasthala.jpg",
+    image: "/images/destinations/dharmasthala-sm.webp",
     description: "Visit a spiritual destination surrounded by culture and nature.",
     highlights: ["Manjunatha Temple", "Bahubali Statue", "Nethravathi River"],
   },
   {
     name: "St. Mary’s Island",
     slug: "st-marys-island",
-    image: "/images/destinations/st-marys-island.jpg",
+    image: "/images/destinations/st-marys-island-sm.webp",
     description: "Explore coastal beauty, unique rock formations and island views.",
     highlights: ["Malpe Beach", "Basalt Rocks", "Boat Ride"],
   },
   {
     name: "Udupi",
     slug: "udupi",
-    image: "/images/destinations/udupi.jpg",
+    image: "/images/destinations/udupi-sm.webp",
     description: "Experience temple heritage, beaches and coastal Karnataka.",
     highlights: ["Sri Krishna Temple", "Malpe Beach", "St. Mary’s Island"],
   },
   {
     name: "Murdeshwar",
     slug: "murdeshwar",
-    image: "/images/destinations/murdeshwar.jpg",
+    image: "/images/destinations/murdeshwar-sm.webp",
     description: "Enjoy coastal scenery, temple views and Arabian Sea beaches.",
     highlights: ["Murdeshwar Temple", "Shiva Statue", "Netrani Island"],
   },
   {
     name: "Jog Falls",
     slug: "jog-falls",
-    image: "/images/destinations/jog-falls.jpg",
+    image: "/images/destinations/jog-falls-sm.webp",
     description: "Visit one of Karnataka’s famous waterfalls and scenic viewpoints.",
     highlights: ["Jog Falls", "Sharavathi Valley", "Viewpoints"],
   },
   {
     name: "Chitradurga",
     slug: "chitradurga",
-    image: "/images/destinations/chitradurga.jpg",
+    image: "/images/destinations/chitradurga-sm.webp",
     description: "Explore historic forts, rocky landscapes and cultural heritage.",
     highlights: ["Chitradurga Fort", "Chandravalli", "Fort Viewpoints"],
   },
   {
     name: "Hampi",
     slug: "hampi",
-    image: "/images/destinations/hampi.jpg",
+    image: "/images/destinations/hampi-sm.webp",
     description: "Discover ancient ruins, temples and the historic Vijayanagara landscape.",
     highlights: ["Virupaksha Temple", "Vittala Temple", "Hampi Bazaar"],
   },
   {
     name: "Badami",
     slug: "badami",
-    image: "/images/destinations/badami.jpg",
+    image: "/images/destinations/badami-sm.webp",
     description: "Explore cave temples, red sandstone cliffs and historic monuments.",
     highlights: ["Badami Caves", "Agastya Lake", "Bhoothnath Temple"],
   },
   {
     name: "Vijayapura / Bijapur",
     slug: "vijayapura",
-    image: "/images/destinations/vijayapura.jpg",
+    image: "/images/destinations/vijayapura-sm.webp",
     description: "Explore historic architecture and monuments in northern Karnataka.",
     highlights: ["Gol Gumbaz", "Ibrahim Rauza", "Jumma Masjid"],
   },
   {
     name: "Bidar",
     slug: "bidar",
-    image: "/images/destinations/bidar.jpg",
+    image: "/images/destinations/bidar-sm.webp",
     description: "Discover forts, monuments and the heritage of northern Karnataka.",
     highlights: ["Bidar Fort", "Bahmani Tombs", "Gurudwara Nanak Jhira"],
   },
   {
     name: "Kodaikanal",
     slug: "kodaikanal",
-    image: "/images/destinations/kodaikanal.jpg",
+    image: "/images/destinations/kodaikanal-sm.webp",
     description: "Enjoy lakes, forests, viewpoints and refreshing hill-station weather.",
     highlights: ["Kodaikanal Lake", "Coaker’s Walk", "Pillar Rocks"],
   },
   {
     name: "Tirupati",
     slug: "tirupati",
-    image: "/images/destinations/tirupati.jpg",
+    image: "/images/destinations/tirupati-sm.webp",
     description: "Plan a pilgrimage journey with comfortable travel and reliable transfers.",
     highlights: ["Tirumala Temple", "Kapila Theertham", "Sri Govindaraja Swamy Temple"],
   },
   {
     name: "Munnar",
     slug: "munnar",
-    image: "/images/destinations/munnar.jpg",
+    image: "/images/destinations/munnar-sm.webp",
     description: "Explore tea plantations, misty mountains and Kerala’s natural beauty.",
     highlights: ["Tea Gardens", "Eravikulam National Park", "Mattupetty Dam"],
   },
   {
     name: "Alleppey",
     slug: "alleppey",
-    image: "/images/destinations/alleppey.jpg",
+    image: "/images/destinations/alleppey-sm.webp",
     description: "Experience Kerala backwaters, houseboats and relaxing coastal landscapes.",
     highlights: ["Backwaters", "Houseboat Cruise", "Alappuzha Beach"],
   },
   {
     name: "Thekkady",
     slug: "thekkady",
-    image: "/images/destinations/thekkady.jpg",
+    image: "/images/destinations/thekkady-sm.webp",
     description: "Enjoy wildlife, spice plantations and scenic forest surroundings.",
     highlights: ["Periyar Wildlife Sanctuary", "Spice Gardens", "Boat Safari"],
   },
   {
     name: "Goa",
     slug: "goa",
-    image: "/images/destinations/goa.jpg",
+    image: "/images/destinations/goa-sm.webp",
     description: "Plan beach holidays, coastal drives and memorable group trips.",
     highlights: ["Beaches", "Fort Aguada", "Panaji"],
   },
   {
     name: "Pondicherry",
     slug: "pondicherry",
-    image: "/images/destinations/pondicherry.jpg",
+    image: "/images/destinations/pondicherry-sm.webp",
     description: "Enjoy French-style streets, beaches and a relaxed coastal atmosphere.",
     highlights: ["Promenade Beach", "White Town", "Auroville"],
   },
   {
     name: "Rameswaram",
     slug: "rameswaram",
-    image: "/images/destinations/rameswaram.jpg",
+    image: "/images/destinations/rameswaram-sm.webp",
     description: "Visit important pilgrimage sites and beautiful coastal locations.",
     highlights: ["Ramanathaswamy Temple", "Pamban Bridge", "Dhanushkodi"],
   },
   {
     name: "Madurai",
     slug: "madurai",
-    image: "/images/destinations/madurai.jpg",
+    image: "/images/destinations/madurai-sm.webp",
     description: "Explore Tamil Nadu’s temple heritage, markets and cultural landmarks.",
     highlights: ["Meenakshi Temple", "Thirumalai Nayak Palace", "Gandhi Museum"],
   },
   {
     name: "Kanyakumari",
     slug: "kanyakumari",
-    image: "/images/destinations/kanyakumari.jpg",
+    image: "/images/destinations/kanyakumari-sm.webp",
     description: "Experience the southern tip of India, coastal views and famous landmarks.",
     highlights: ["Vivekananda Rock", "Sunset Point", "Thiruvalluvar Statue"],
   }
@@ -534,58 +534,78 @@ export default function DestinationsPage() {
         <section className="relative isolate overflow-hidden bg-ink text-white">
           <div className="absolute inset-0 -z-10">
             <ParallaxImage
-              src="/images/web/4.webp"
-              alt="Coastal road trip with Dynamic Travels"
-              strength={14}
+              src="/images/destinations/wayanad.webp"
+              alt="Chembra Peak, Wayanad — a road trip from Bengaluru"
+              strength={10}
               className="h-full"
-              overlay="bg-gradient-to-r from-ink/95 via-ink/70 to-sky-deep/30"
+              overlay="bg-gradient-to-r from-ink/85 via-ink/45 to-transparent"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/30" />
           </div>
-          <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 lg:py-36">
+          <div className="mx-auto max-w-7xl px-5 pb-36 pt-24 sm:px-8 lg:pb-48 lg:pt-32">
             <Reveal>
-              <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-brand-light">
-                <Sparkles size={15} /> Explore with Dynamic Travels
+              <p className="glass inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-white">
+                <Sparkles size={14} className="text-brand-light" /> 30+ destinations from Bengaluru
               </p>
-              <h1 className="mt-5 max-w-4xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-                Explore South India <span className="text-gradient">one journey at a time.</span>
+              <h1 className="mt-6 max-w-4xl font-display text-4xl font-extrabold leading-[1.05] tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.35)] sm:text-6xl lg:text-7xl">
+                Explore South India <span className="text-gradient">in comfort.</span>
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-white/75 sm:text-lg">
-                30+ hill stations, heritage sites, beaches, temples and wildlife parks — all a comfortable drive from Bengaluru
-                in our sedans, Innovas, Urbanias, Tempo Travellers and buses.
-              </p>
+              <p className="mt-5 max-w-xl text-lg text-white/90">Hills, heritage, beaches and temples — door to door, with a driver who knows the way.</p>
             </Reveal>
 
             {/* Search */}
             <Reveal delay={0.15} className="mt-10 max-w-2xl">
-              <label className="glass-light flex items-center gap-3 rounded-full px-5 py-2 text-ink shadow-lift">
+              <label className="flex items-center gap-3 rounded-full bg-white p-2 pl-6 text-ink shadow-[0_24px_60px_-20px_rgba(0,0,0,0.55)] ring-1 ring-white/60 transition focus-within:ring-4 focus-within:ring-brand/40">
                 <Search size={20} className="shrink-0 text-brand" />
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search Coorg, temples, beaches…"
-                  className="w-full bg-transparent py-3 text-base outline-none placeholder:text-ink/40"
+                  placeholder="Where do you want to go?"
+                  className="w-full min-w-0 bg-transparent py-3 text-base outline-none placeholder:text-ink/45"
                   aria-label="Search destinations"
                 />
+                <a
+                  href="#destinations"
+                  className="hidden shrink-0 items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white shadow-brand transition hover:bg-brand-dark sm:inline-flex"
+                >
+                  Explore <ArrowRight size={16} />
+                </a>
               </label>
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+                <span className="text-white/70">Popular:</span>
+                {["Coorg", "Ooty", "Hampi", "Munnar", "Goa"].map((name) => (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => {
+                      setQ(name);
+                      document.getElementById("destinations")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="glass rounded-full px-3.5 py-1.5 font-semibold text-white transition hover:bg-white/25"
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
             </Reveal>
           </div>
         </section>
 
-        {/* FEATURES */}
-        <section className="mx-auto -mt-10 max-w-7xl px-5 sm:px-8">
+        {/* FEATURES — overlaps the hero; relative z-10 keeps it above it */}
+        <section className="relative z-10 mx-auto -mt-20 max-w-7xl px-5 sm:px-8">
           <Stagger className="grid gap-4 md:grid-cols-3">
             {[
-              [ShieldCheck, "Safe & Comfortable", "Reliable vehicles and verified, experienced drivers."],
-              [CalendarDays, "Flexible Planning", "Day trips or multi-day tours for families, groups and companies."],
-              [Mountain, "All Over South India", "Karnataka, Kerala, Tamil Nadu, Goa, Puducherry and beyond."],
+              [ShieldCheck, "Safe & Comfortable", "Verified, experienced drivers in spotless vehicles."],
+              [CalendarDays, "Flexible Planning", "Day trips or multi-day tours, planned around you."],
+              [Mountain, "All Over South India", "Karnataka, Kerala, Tamil Nadu, Goa and beyond."],
             ].map(([Icon, title, text]) => (
               <StaggerItem key={title}>
-                <div className="flex h-full gap-4 rounded-3xl border border-cream-line bg-white p-6 shadow-soft">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-sky-soft text-sky-deep">
+                <div className="flex h-full items-start gap-4 rounded-3xl border border-white/70 bg-white/95 p-6 shadow-[0_24px_60px_-24px_rgba(15,42,61,0.35)] backdrop-blur transition hover:-translate-y-1">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-brand">
                     <Icon size={22} />
                   </span>
                   <div>
-                    <h2 className="font-display text-lg font-bold">{title}</h2>
+                    <h2 className="font-display text-lg font-bold text-ink">{title}</h2>
                     <p className="mt-1 text-sm leading-6 text-ink-soft">{text}</p>
                   </div>
                 </div>
@@ -595,7 +615,7 @@ export default function DestinationsPage() {
         </section>
 
         {/* FILTERS + GRID */}
-        <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <section id="destinations" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16 sm:px-8">
           <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-brand">Popular destinations</p>

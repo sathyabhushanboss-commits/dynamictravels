@@ -220,3 +220,27 @@ h1, h2, h3, h4, .font-display {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Cab loader (components/CabLoader.js) ---------- */
+@keyframes cab-drive {
+  0%   { transform: translateX(-30%); }
+  100% { transform: translateX(130%); }
+}
+@keyframes cab-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-1.5px); }
+}
+@keyframes cab-road {
+  to { background-position: -48px 0; }
+}
+@keyframes cab-spin {
+  to { transform: rotate(360deg); }
+}
+.cab-drive  { animation: cab-drive 2.4s cubic-bezier(.45,.05,.55,.95) infinite; }
+.cab-bounce { animation: cab-bounce .35s ease-in-out infinite; }
+.cab-road   { background: repeating-linear-gradient(90deg, #E67817 0 24px, transparent 24px 48px); animation: cab-road .5s linear infinite; }
+.cab-wheel  { transform-box: fill-box; transform-origin: center; animation: cab-spin .45s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .cab-drive, .cab-bounce, .cab-road, .cab-wheel { animation: none; }
+  .cab-drive { transform: translateX(50%); }
+}

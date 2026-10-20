@@ -7,9 +7,10 @@ const PHONE = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+917975630631';
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '917975630631';
 
 function paymentLine(b) {
-  if (b.paymentStatus === 'paid') return `Payment: Paid in full online — ${formatINR(b.amountPaid)}`;
+  const fee = b.onlineFee ? ` (incl. ${formatINR(b.onlineFee)} online payment fee)` : '';
+  if (b.paymentStatus === 'paid') return `Payment: Paid in full online — ${formatINR(b.amountPaid)}${fee}`;
   if (b.paymentStatus === 'advance_paid')
-    return `Payment: Advance ${formatINR(b.amountPaid)} paid online; balance ${formatINR(b.balanceDue)} to driver`;
+    return `Payment: Advance ${formatINR(b.amountPaid)}${fee} paid online; balance ${formatINR(b.balanceDue)} to driver`;
   return 'Payment: Pay after ride (cash / UPI to driver)';
 }
 
@@ -82,6 +83,11 @@ export default function ConfirmationCard({ booking, onReset }) {
             <div className="mt-2 flex items-center justify-between text-sm text-route-green">
               <span>Paid online</span>
               <span className="font-semibold">{formatINR(booking.amountPaid)} · nothing due to driver</span>
+            </div>
+          )}
+          {(paid || advance) && booking.onlineFee > 0 && (
+            <div className="text-right text-[11px] text-asphalt/45">
+              Includes {formatINR(booking.onlineFee)} online payment fee
             </div>
           )}
           {advance && (

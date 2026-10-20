@@ -7,6 +7,8 @@ import { calculatePrice } from '@/lib/pricing';
 import { getRatesData } from '@/lib/rates-store';
 import { cookies } from 'next/headers';
 import { ADMIN_COOKIE, isAdminToken } from '@/lib/admin-auth';
+import { getUserSession } from '@/lib/session';
+import { getUser } from '@/lib/auth-db';
 
 // ---------------------------------------------------------------------------
 // FIXES in this route
@@ -20,8 +22,9 @@ import { ADMIN_COOKIE, isAdminToken } from '@/lib/admin-auth';
 //  3. The booking email was fire-and-forget. On Vercel the function is frozen
 //     as soon as the response is sent, so emails were silently dropped. It is
 //     now awaited (failures are still logged and never block the booking).
-//  4. /my-bookings lookup matched with endsWith(), so typing a single digit
-//     returned other customers' bookings. It now needs a full 10-digit number.
+//  4. Booking lookup by phone number let anyone see another customer's
+//     bookings. Customers now log in with an OTP (/login) and only see
+//     bookings linked to their account, phone or email.
 // ---------------------------------------------------------------------------
 
 const onlyDigits = (s) => String(s || '').replace(/\D/g, '');
@@ -131,7 +134,9 @@ export async function POST(req) {
     }
 
     const paymentStatus = paid ? split.status : 'not_paid';
-    const balanceDue = paid ? Math.max(0, split.total - amountPaid) : split.total;
+    // amountPaid includes the online payment fee, so the driver's balance is
+    // the fare minus the fare portion paid — not total minus amountPaid.
+    const balanceDue = paid ? split.balance : split.total;
 
     const paymentMode = !split.requiresPayment
       ? 'Pay after ride (cash / UPI to driver)'
@@ -143,8 +148,11 @@ export async function POST(req) {
       ? `Online payment NEEDS MANUAL CHECK — ${paymentNote}`
       : 'Advance selected — payment not completed';
 
+    const userSession = getUserSession(cookies());
+
     const booking = {
       id: makeBookingId(),
+      userId: userSession?.sub || '',
       createdAt: new Date().toISOString(),
       status: paid ? 'Confirmed' : 'Pending',
       name,
@@ -171,7 +179,8 @@ export async function POST(req) {
       paymentOption: optionId,
       paymentMode,
       paymentStatus, // 'not_paid' | 'advance_paid' | 'paid'
-      amountPaid,
+      amountPaid, // charged online, incl. onlineFee
+      onlineFee: paid ? split.fee : 0,
       balanceDue,
       razorpayOrderId: body.payment?.razorpayOrderId || '',
       razorpayPaymentId: body.payment?.razorpayPaymentId || '',
@@ -195,23 +204,27 @@ export async function POST(req) {
 
 export async function GET(req) {
   const isAdmin = isAdminToken(cookies().get(ADMIN_COOKIE)?.value);
-  const { searchParams } = new URL(req.url);
-  const phone = searchParams.get('phone');
-
   if (isAdmin) {
     const all = await getBookings();
     return NextResponse.json({ bookings: all });
   }
 
-  if (phone) {
-    const wanted = last10(phone);
-    if (wanted.length < 10) {
-      return NextResponse.json({ error: 'Enter your full 10-digit mobile number' }, { status: 400 });
-    }
+  // Signed-in customer: bookings linked to their account, phone or email.
+  const session = getUserSession(cookies());
+  if (session) {
+    const user = await getUser(session.sub);
+    if (!user) return NextResponse.json({ error: 'Please log in again.' }, { status: 401 });
+    const phone10 = last10(user.phone);
+    const email = user.email.toLowerCase();
     const all = await getBookings();
-    const mine = all.filter((b) => last10(b.phone) === wanted);
+    const mine = all.filter(
+      (b) =>
+        b.userId === user.id ||
+        (phone10 && last10(b.phone) === phone10) ||
+        (email && String(b.email || '').toLowerCase() === email)
+    );
     return NextResponse.json({ bookings: mine });
   }
 
-  return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  return NextResponse.json({ error: 'Please log in to see your bookings.' }, { status: 401 });
 }

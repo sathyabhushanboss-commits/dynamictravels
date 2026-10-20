@@ -10,7 +10,6 @@ export default function sitemap() {
     { path: '/group-booking', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/contact', priority: 0.7, changeFrequency: 'monthly' },
-    { path: '/my-bookings', priority: 0.4, changeFrequency: 'yearly' },
     { path: '/terms', priority: 0.2, changeFrequency: 'yearly' },
     { path: '/privacy', priority: 0.2, changeFrequency: 'yearly' },
     { path: '/cancellation-policy', priority: 0.2, changeFrequency: 'yearly' },

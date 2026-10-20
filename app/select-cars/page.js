@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CabLoader from '@/components/CabLoader';
 import VehicleCard from '@/components/VehicleCard';
 import { TRIP_TYPES, vehiclesForTripType } from '@/lib/pricing';
 
@@ -84,7 +85,7 @@ function SelectCarsInner() {
 
       <div className="mx-auto max-w-5xl px-5 py-8">
         {loading ? (
-          <p className="text-sm text-asphalt/50">Loading cabs…</p>
+          <CabLoader label="Finding the best cabs for you…" className="py-10" />
         ) : vehicles.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-black/10 bg-white p-10 text-center text-sm text-asphalt/50">
             No vehicles are configured for this trip type yet. Please call or WhatsApp us directly.

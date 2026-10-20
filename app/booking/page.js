@@ -4,10 +4,11 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CabLoader from '@/components/CabLoader';
 import ConfirmationCard from '@/components/ConfirmationCard';
 import RouteMapEmbed from '@/components/RouteMapEmbed';
 import { TRIP_TYPES, calculatePrice, formatINR } from '@/lib/pricing';
-import { PAYMENT_OPTIONS, paymentBreakdown } from '@/lib/payments';
+import { DEFAULT_PAYMENT_OPTION, ONLINE_FEE_RATE, PAYMENT_OPTIONS, paymentBreakdown } from '@/lib/payments';
 import { getCustomer, saveCustomer, saveBookingRef } from '@/lib/cookies';
 
 const RAZORPAY_SRC = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -77,7 +78,7 @@ function BookingInner() {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [notes, setNotes] = useState('');
-  const [paymentOption, setPaymentOption] = useState('later');
+  const [paymentOption, setPaymentOption] = useState(DEFAULT_PAYMENT_OPTION);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState(null);
@@ -159,7 +160,7 @@ function BookingInner() {
         modal: {
           ondismiss: () => {
             setSubmitting(false);
-            setError('Payment was cancelled. You can try again, or choose "Pay after ride".');
+            setError('Payment was cancelled. You can try again, or choose "Pay later".');
             resolve(null);
           },
         },
@@ -248,7 +249,7 @@ function BookingInner() {
     return (
       <main>
         <Header />
-        <div className="mx-auto max-w-3xl px-5 py-16 text-sm text-asphalt/50">Loading…</div>
+        <CabLoader label="Preparing your booking…" />
         <Footer />
       </main>
     );
@@ -331,6 +332,11 @@ function BookingInner() {
                               : 'border-black/10 hover:border-route-teal/40'
                           }`}
                         >
+                          {opt.badge && (
+                            <span className="mb-2 inline-block rounded-full bg-amber px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                              {opt.badge}
+                            </span>
+                          )}
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-bold uppercase tracking-wide text-route-teal">{opt.tagline}</span>
                             <span
@@ -343,6 +349,9 @@ function BookingInner() {
                             {opt.pct > 0 ? formatINR(b.payNow) : '₹0'}
                             <span className="ml-1 text-xs font-medium text-asphalt/40">now</span>
                           </div>
+                          {b.fee > 0 && (
+                            <div className="text-[11px] text-asphalt/45">incl. {formatINR(b.fee)} payment fee</div>
+                          )}
                           <div className="mt-1 text-xs text-asphalt/60">{opt.desc}</div>
                           {opt.pct > 0 && opt.pct < 1 && (
                             <div className="mt-1 text-[11px] text-asphalt/40">Balance {formatINR(b.balance)} to driver</div>
@@ -352,9 +361,30 @@ function BookingInner() {
                     })}
                   </div>
                   {split.requiresPayment && (
-                    <p className="mt-2 text-[11px] text-asphalt/40">
-                      Payments are processed securely by Razorpay (UPI, cards, netbanking &amp; wallets).
-                    </p>
+                    <div className="mt-3 rounded-xl border border-black/5 bg-mist p-4 text-sm">
+                      <div className="flex justify-between text-asphalt/70">
+                        <span>{split.pct >= 1 ? 'Fare' : `25% advance of ${formatINR(split.total)}`}</span>
+                        <span>{formatINR(split.fareNow)}</span>
+                      </div>
+                      <div className="mt-1 flex justify-between text-asphalt/70">
+                        <span>Online payment fee ({+(ONLINE_FEE_RATE * 100).toFixed(2)}%)</span>
+                        <span>{formatINR(split.fee)}</span>
+                      </div>
+                      <div className="mt-2 flex justify-between border-t border-black/10 pt-2 font-display font-bold text-asphalt">
+                        <span>Pay now</span>
+                        <span>{formatINR(split.payNow)}</span>
+                      </div>
+                      {split.balance > 0 && (
+                        <div className="mt-1 flex justify-between text-xs text-asphalt/55">
+                          <span>Balance to driver after the ride</span>
+                          <span>{formatINR(split.balance)}</span>
+                        </div>
+                      )}
+                      <p className="mt-2 text-[11px] text-asphalt/45">
+                        The payment fee covers Razorpay gateway charges. Paid securely via UPI, cards, netbanking &amp; wallets.
+                        Choose &ldquo;Pay later&rdquo; to avoid the fee.
+                      </p>
+                    </div>
                   )}
                 </div>
               )}

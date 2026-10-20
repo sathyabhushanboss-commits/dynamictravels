@@ -519,6 +519,13 @@ export default function Footer() {
             </Link>
 
             <Link
+              href="/image-credits"
+              className="transition hover:text-brand-light"
+            >
+              Photo Credits
+            </Link>
+
+            <Link
               href="/contact"
               className="transition hover:text-brand-light"
             >

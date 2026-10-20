@@ -21,7 +21,7 @@ const POPUP_DELAY_MS = 30_000;
 const DONE_KEY = 'dt_lead_done';
 const SHOWN_KEY = 'dt_lead_popup_shown';
 // Don't interrupt checkout or the admin panel.
-const QUIET_PATHS = ['/admin', '/booking', '/select-cars', '/my-bookings'];
+const QUIET_PATHS = ['/admin', '/booking', '/select-cars', '/my-bookings', '/login', '/account'];
 
 const TRIPS = [
   { id: 'Airport transfer', label: 'Airport' },
@@ -255,7 +255,7 @@ export default function LeadCapture() {
             exit={{ opacity: 0, y: 30 }}
             transition={{ type: 'spring', stiffness: 260, damping: 26 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative grid max-h-[92svh] w-full max-w-[820px] overflow-y-auto rounded-[28px] bg-cream shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] sm:grid-cols-[0.9fr_1.1fr]"
+            className="relative max-h-[92svh] w-full max-w-[480px] overflow-y-auto rounded-[28px] bg-cream shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)]"
           >
             <button
               type="button"
@@ -266,34 +266,25 @@ export default function LeadCapture() {
               <X size={18} />
             </button>
 
-            {/* Image side */}
-            <div className="relative hidden min-h-[460px] overflow-hidden sm:block">
-              <img src="/images/web/urbania12-sm.webp" alt="" className="absolute inset-0 h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-                <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-brand-light">Available 24×7</p>
-                <p className="mt-2 font-display text-2xl font-extrabold leading-tight">Your personal travel expert.</p>
-              </div>
-            </div>
-
-            {/* Form side */}
+            <div className="h-1.5 w-full bg-brand-gradient" />
             <div className="p-6 sm:p-8">
               {done ? (
                 <Success {...done} />
               ) : (
-                <>
-                  <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand-dark">Free trip planning</p>
+                <div className="text-center">
+                  <img src="/images/logo.webp" alt={SITE.name} className="mx-auto h-auto w-[220px] max-w-[70%] object-contain sm:w-[260px]" />
+                  <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.22em] text-brand-dark">Free trip planning · 24×7</p>
                   <h2 id="lead-title" className="mt-2 font-display text-[1.7rem] font-extrabold leading-tight text-ink sm:text-3xl">
                     Get the best fare in minutes.
                   </h2>
                   <p className="mt-2 text-sm text-ink-soft">Share your details — we'll continue on WhatsApp.</p>
-                  <div className="mt-6">
+                  <div className="mt-6 text-left">
                     <LeadForm source="popup" onSuccess={setDone} />
                   </div>
                   <a href={telLink} className="mt-5 flex items-center justify-center gap-2 text-sm font-semibold text-ink-soft hover:text-brand-dark">
                     <Phone size={15} /> Prefer to talk? Call {SITE.phoneDisplay}
                   </a>
-                </>
+                </div>
               )}
             </div>
           </motion.div>
@@ -314,7 +305,7 @@ export default function LeadCapture() {
         >
           <div className="flex items-center gap-3 bg-[#075E54] px-5 py-4 text-white">
             <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white">
-              <img src="/images/logo.png" alt="" className="h-full w-full object-contain p-1" />
+              <img src="/images/logo.webp" alt="" className="h-full w-full object-contain p-1" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate font-display font-bold">{SITE.name}</p>

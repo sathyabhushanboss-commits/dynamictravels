@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Clock, Mail, Menu, MessageCircle, Phone, X, ArrowRight, ShieldCheck } from "lucide-react";
+import { Clock, Mail, Menu, MessageCircle, Phone, X, ArrowRight, ShieldCheck, UserRound } from "lucide-react";
 import { SITE, telLink, mailLink, waLink } from "@/lib/site";
 
 const NAV_LINKS = [
@@ -19,7 +19,17 @@ const NAV_LINKS = [
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [account, setAccount] = useState(null); // signed-in customer, if any
   const pathname = usePathname();
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((d) => setAccount(d.user || null))
+      .catch(() => {});
+  }, []);
+
+  const accountLabel = account ? (account.name ? account.name.split(" ")[0] : "My Account") : "Login";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -106,6 +116,14 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/account"
+              aria-label={account ? "My account" : "Log in"}
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-ink/10 bg-white px-3 text-sm font-bold text-ink transition hover:border-brand hover:text-brand-dark xl:px-4"
+            >
+              <UserRound size={17} />
+              <span className="hidden max-w-[9ch] truncate xl:inline">{accountLabel}</span>
+            </Link>
             <a
               href={telLink}
               className="hidden items-center gap-2 rounded-full border border-sky/30 bg-sky-soft px-4 py-2.5 text-sm font-bold text-sky-deep transition hover:bg-sky hover:text-white md:inline-flex"
@@ -172,7 +190,7 @@ export default function Header() {
               </div>
 
               <nav className="flex-1 overflow-y-auto px-4 py-4">
-                {[...NAV_LINKS, { href: "/my-bookings", label: "My Bookings" }].map((l, i) => (
+                {[...NAV_LINKS, { href: "/account", label: account ? "My Account & Bookings" : "Login / My Bookings" }].map((l, i) => (
                   <motion.div
                     key={l.href}
                     initial={{ opacity: 0, x: 24 }}

@@ -91,8 +91,8 @@ const fleetCategories = [
       "Premium full-size SUV for executive travel, weddings and long-distance journeys in style.",
     vehicles: [
       // No Fortuner photos yet — add fortuner11…14 to /public/images/web and
-      // switch this to imgs("fortuner"). Until a "fortuner" rate card exists
-      // in /admin/rates it books as a quote request.
+      // switch this to imgs("fortuner"). Its rate card is airport-only until
+      // local / outstation rates are added in /admin/rates.
       { name: "Toyota Fortuner", folder: "fortuner", seats: 7, from: 5500, images: [], options: [{ label: "Standard", rateIds: ["toyota_fortuner", "fortuner"] }] },
     ],
   },
