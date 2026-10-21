@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { addBooking, getBookings, makeBookingId } from '@/lib/db';
+import { addBooking, getBookings, makeBookingId, patchBooking } from '@/lib/db';
 import { sendBookingEmail } from '@/lib/mailer';
 import { paymentBreakdown } from '@/lib/payments';
-import { calculatePrice } from '@/lib/pricing';
+import { calculatePrice, formatINR } from '@/lib/pricing';
+import { sendBookingConfirmation, sendLeadGreeting } from '@/lib/whatsapp';
+import { payToken } from '@/lib/pay-links';
 import { getRatesData } from '@/lib/rates-store';
 import { cookies } from 'next/headers';
 import { ADMIN_COOKIE, isAdminToken } from '@/lib/admin-auth';
@@ -81,6 +83,12 @@ async function verifyOnlinePayment(payment, expectedPaise) {
   }
   // Razorpay unreachable, but the signature is valid → accept, amount unchecked.
   return { ok: true, paidPaise: expectedPaise, unchecked: true };
+}
+
+function whatsappAmountText(b) {
+  if (b.paymentStatus === 'paid') return 'Paid in full ✅';
+  if (b.paymentStatus === 'advance_paid') return `${formatINR(b.balanceDue)} balance — pay online or to the driver`;
+  return `${formatINR(b.balanceDue)} — pay online now or to the driver after the ride`;
 }
 
 export async function POST(req) {
@@ -193,6 +201,19 @@ export async function POST(req) {
       await sendBookingEmail(booking);
     } catch (err) {
       console.error('[booking email] failed to send for', booking.id, err?.message || err);
+    }
+
+    // WhatsApp the customer from the business number: a short "Hi", the
+    // booking summary and a "Pay now" button (quote requests get the greeting).
+    try {
+      const wa = isEnquiry
+        ? await sendLeadGreeting({ phone: `91${last10(phone)}`, name })
+        : await sendBookingConfirmation(booking, { amountText: whatsappAmountText(booking), payToken: payToken(booking.id) });
+      booking.whatsappAuto = wa.sent ? 'sent' : wa.skipped ? 'not-configured' : 'failed';
+      await patchBooking(booking.id, { whatsappAuto: booking.whatsappAuto });
+    } catch (err) {
+      console.error('[booking whatsapp] failed for', booking.id, err?.message || err);
+      booking.whatsappAuto = 'failed';
     }
 
     return NextResponse.json({ ok: true, booking });

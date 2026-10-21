@@ -112,6 +112,11 @@ export default function BookingsTable({ initialBookings }) {
                     ) : (
                       <span className="rounded-full bg-amber/10 px-2 py-1 text-xs font-semibold text-amber-dark">Pay after ride</span>
                     )}
+                    {b.whatsappAuto && (
+                      <div className={`mt-1 text-[11px] ${b.whatsappAuto === 'sent' ? 'text-route-green' : 'text-amber-dark'}`}>
+                        {b.whatsappAuto === 'sent' ? 'WhatsApp sent ✓' : 'WhatsApp not sent'}
+                      </div>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <select
@@ -128,7 +133,17 @@ export default function BookingsTable({ initialBookings }) {
                     </select>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
+                      {b.payUrl && b.paymentStatus !== 'paid' && !b.price?.enquiryOnly && (
+                        <button
+                          type="button"
+                          onClick={() => navigator.clipboard?.writeText(b.payUrl)}
+                          title={b.payUrl}
+                          className="focus-ring rounded-full border border-asphalt/20 px-2 py-1 text-xs"
+                        >
+                          Copy pay link
+                        </button>
+                      )}
                       <a href={`tel:${b.phone}`} className="focus-ring rounded-full border border-asphalt/20 px-2 py-1 text-xs">
                         Call
                       </a>

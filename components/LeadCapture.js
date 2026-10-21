@@ -21,7 +21,7 @@ const POPUP_DELAY_MS = 30_000;
 const DONE_KEY = 'dt_lead_done';
 const SHOWN_KEY = 'dt_lead_popup_shown';
 // Don't interrupt checkout or the admin panel.
-const QUIET_PATHS = ['/admin', '/booking', '/select-cars', '/my-bookings', '/login', '/account'];
+const QUIET_PATHS = ['/admin', '/booking', '/select-cars', '/my-bookings', '/login', '/account', '/pay'];
 
 const TRIPS = [
   { id: 'Airport transfer', label: 'Airport' },

@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { ADMIN_COOKIE, isAdminToken } from '@/lib/admin-auth';
 import { redirect } from 'next/navigation';
 import { getBookings } from '@/lib/db';
+import { payUrl } from '@/lib/pay-links';
 import BookingsTable from '@/components/BookingsTable';
 import AdminNav from '@/components/AdminNav';
 
@@ -11,7 +12,7 @@ export default async function AdminDashboard() {
   const isAdmin = isAdminToken(cookies().get(ADMIN_COOKIE)?.value);
   if (!isAdmin) redirect('/admin');
 
-  const bookings = await getBookings();
+  const bookings = (await getBookings()).map((b) => ({ ...b, payUrl: payUrl(b.id) }));
 
   return (
     <main className="min-h-screen bg-paper">
