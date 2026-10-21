@@ -2,9 +2,11 @@
 
 import { useEffect, useRef } from 'react';
 import { formatINR } from '@/lib/pricing';
+import { SITE } from '@/lib/site';
 
-const PHONE = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+917975630631';
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '917975630631';
+// Business contact comes from lib/site.js (one place for phone / WhatsApp).
+const PHONE = SITE.phone;
+const WHATSAPP = SITE.whatsapp;
 
 function paymentLine(b) {
   const fee = b.onlineFee ? ` (incl. ${formatINR(b.onlineFee)} online payment fee)` : '';
