@@ -124,6 +124,17 @@ export default function LeadsTable({ initialLeads }) {
                   <td className="px-4 py-3 text-xs text-asphalt/60">
                     {SOURCE_LABELS[l.source] || l.source}
                     {l.page && <div className="text-asphalt/40">{l.page}</div>}
+                    {l.whatsappAuto && (
+                      <div
+                        className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                          l.whatsappAuto === 'sent' || l.whatsappAuto === 'duplicate'
+                            ? 'bg-route-green/10 text-route-green'
+                            : 'bg-amber/10 text-amber-dark'
+                        }`}
+                      >
+                        {l.whatsappAuto === 'sent' ? 'WhatsApp auto-sent' : l.whatsappAuto === 'duplicate' ? 'Already messaged' : 'Send WhatsApp manually'}
+                      </div>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <select

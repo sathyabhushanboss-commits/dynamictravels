@@ -1,4 +1,5 @@
 import { SITE } from '@/lib/site';
+import { POSTS } from '@/lib/blog';
 
 // Generates /sitemap.xml — submit this URL in Google Search Console.
 export default function sitemap() {
@@ -7,6 +8,8 @@ export default function sitemap() {
     { path: '', priority: 1.0, changeFrequency: 'weekly' },
     { path: '/fleet', priority: 0.9, changeFrequency: 'weekly' },
     { path: '/destinations', priority: 0.8, changeFrequency: 'monthly' },
+    { path: '/blog', priority: 0.8, changeFrequency: 'weekly' },
+    ...POSTS.map((p) => ({ path: `/blog/${p.slug}`, priority: 0.7, changeFrequency: 'monthly' })),
     { path: '/group-booking', priority: 0.8, changeFrequency: 'monthly' },
     { path: '/about', priority: 0.7, changeFrequency: 'monthly' },
     { path: '/contact', priority: 0.7, changeFrequency: 'monthly' },

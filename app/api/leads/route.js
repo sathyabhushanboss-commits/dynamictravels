@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { ADMIN_COOKIE, isAdminToken } from '@/lib/admin-auth';
-import { addLead, getLeads, makeLeadId, normalizePhone } from '@/lib/leads';
+import { addLead, findLeadByPhone, getLeads, makeLeadId, normalizePhone, updateLeadData } from '@/lib/leads';
 import { sendLeadEmails } from '@/lib/mailer';
 import { sendLeadGreeting } from '@/lib/whatsapp';
 import { SITE } from '@/lib/site';
@@ -53,6 +53,15 @@ export async function POST(req) {
     page: String(body.page || '/').slice(0, 200),
   };
 
+  // One WhatsApp greeting per number per 6 hours, however often the form is sent.
+  let recentlyGreeted = false;
+  try {
+    const previous = await findLeadByPhone(phone);
+    recentlyGreeted = Boolean(previous && Date.now() - new Date(previous.createdAt).getTime() < 6 * 3600 * 1000);
+  } catch {
+    /* lookup failure shouldn't block the lead */
+  }
+
   try {
     await addLead(lead);
   } catch (err) {
@@ -60,7 +69,14 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Could not save right now — please call or WhatsApp us.' }, { status: 500 });
   }
 
-  const [mail, wa] = await Promise.allSettled([sendLeadEmails(lead, SITE), sendLeadGreeting(lead)]);
+  const [mail, wa] = await Promise.allSettled([
+    sendLeadEmails(lead, SITE),
+    recentlyGreeted ? Promise.resolve({ sent: true, deduped: true }) : sendLeadGreeting(lead),
+  ]);
+
+  const waResult = wa.status === 'fulfilled' ? wa.value : { error: String(wa.reason) };
+  const whatsappAuto = waResult.deduped ? 'duplicate' : waResult.sent ? 'sent' : waResult.skipped ? 'not-configured' : 'failed';
+  await updateLeadData(lead.id, { whatsappAuto }).catch(() => {});
 
   return NextResponse.json({
     ok: true,

@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/fleet", label: "Fleet" },
   { href: "/destinations", label: "Destinations" },
+  { href: "/blog", label: "Blog" },
   { href: "/group-booking", label: "Group Travel" },
   { href: "/contact", label: "Contact" },
 ];
@@ -90,17 +91,17 @@ export default function Header() {
               alt="Dynamic Travels logo"
               width={543}
               height={100}
-              className={`w-auto transition-all duration-300 ${scrolled ? "h-9 sm:h-10" : "h-10 sm:h-12"}`}
+              className={`w-auto transition-all duration-300 ${scrolled ? "h-9 sm:h-10" : "h-10 sm:h-11"}`}
             />
           </Link>
 
           {/* Desktop navigation */}
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+          <nav className="hidden items-center xl:flex" aria-label="Main">
             {NAV_LINKS.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className={`relative rounded-full px-4 py-2 text-[15px] font-semibold transition ${
+                className={`relative whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold transition ${
                   isActive(l.href) ? "text-brand" : "text-ink/75 hover:text-ink"
                 }`}
               >
@@ -115,40 +116,27 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2.5">
             <Link
               href="/account"
               aria-label={account ? "My account" : "Log in"}
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-ink/10 bg-white px-3 text-sm font-bold text-ink transition hover:border-brand hover:text-brand-dark xl:px-4"
+              className="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-full border border-ink/10 bg-white px-3.5 text-sm font-bold text-ink transition hover:border-brand hover:text-brand-dark sm:px-4"
             >
               <UserRound size={17} />
-              <span className="hidden max-w-[9ch] truncate xl:inline">{accountLabel}</span>
+              <span className="hidden max-w-[10ch] truncate sm:inline">{accountLabel}</span>
             </Link>
-            <a
-              href={telLink}
-              className="hidden items-center gap-2 rounded-full border border-sky/30 bg-sky-soft px-4 py-2.5 text-sm font-bold text-sky-deep transition hover:bg-sky hover:text-white md:inline-flex"
-            >
-              <Phone size={16} /> Call Now
-            </a>
             <Link
               href="/#book"
-              className="btn-shine hidden items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white shadow-brand transition hover:bg-brand-dark sm:inline-flex"
+              className="btn-shine hidden h-11 items-center gap-2 whitespace-nowrap rounded-full bg-brand px-5 text-sm font-bold text-white shadow-brand transition hover:bg-brand-dark sm:inline-flex"
             >
               Book a Ride <ArrowRight size={16} />
             </Link>
-            <a
-              href={telLink}
-              aria-label="Call Dynamic Travels"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-soft text-sky-deep md:hidden"
-            >
-              <Phone size={18} />
-            </a>
             <button
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
               aria-expanded={open}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-ink text-white lg:hidden"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-ink text-white xl:hidden"
             >
               <Menu size={20} />
             </button>
@@ -162,7 +150,7 @@ export default function Header() {
           <>
             <motion.div
               key="backdrop"
-              className="fixed inset-0 z-[80] bg-ink/50 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-[80] bg-ink/50 backdrop-blur-sm xl:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -170,7 +158,7 @@ export default function Header() {
             />
             <motion.aside
               key="drawer"
-              className="fixed inset-y-0 right-0 z-[90] flex w-[86%] max-w-sm flex-col bg-cream shadow-2xl lg:hidden"
+              className="fixed inset-y-0 right-0 z-[90] flex w-[86%] max-w-sm flex-col bg-cream shadow-2xl xl:hidden"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}

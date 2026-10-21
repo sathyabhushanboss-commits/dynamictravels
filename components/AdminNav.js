@@ -7,6 +7,7 @@ const TABS = [
   { href: '/admin/dashboard', label: 'Bookings' },
   { href: '/admin/leads', label: 'Leads' },
   { href: '/admin/rates', label: 'Rates & Fleet' },
+  { href: '/admin/admins', label: 'Admins' },
 ];
 
 export default function AdminNav() {

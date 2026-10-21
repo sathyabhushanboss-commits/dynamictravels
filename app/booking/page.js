@@ -92,6 +92,19 @@ function BookingInner() {
     if (c.email) setEmail((v) => v || c.email);
   }, []);
 
+  // Logged-in customer? Their account details win over the cookie.
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then((r) => r.json())
+      .then(({ user }) => {
+        if (!user) return;
+        if (user.name) setName(user.name);
+        if (user.phone) setPhone(user.phone.slice(2));
+        if (user.email) setEmail(user.email);
+      })
+      .catch(() => {});
+  }, []);
+
   const enquiryOnly = !!price?.enquiryOnly;
   const total = price?.total || 0;
   const split = useMemo(
