@@ -81,8 +81,7 @@ const FLEET = [
   { name: "Sedan", seats: 4, img: "sedan11", tag: "Swift Dzire · Etios", from: 2200 },
   { name: "Innova Crysta", seats: 7, img: "crysta11", tag: "Premium MPV", from: 3000 },
   { name: "Innova Hycross", seats: 7, img: "hybrid11", tag: "Hybrid comfort", from: 3500 },
-  // No Fortuner photo yet — add fortuner11 to /public/images/web and set img.
-  { name: "Toyota Fortuner", seats: 7, img: null, tag: "Premium SUV", from: 5500 },
+  { name: "Toyota Fortuner", seats: 7, img: "fortuner11", tag: "Premium SUV", from: 5500 },
   { name: "Force Urbania", seats: 17, img: "urbania11", tag: "9 – 17 seater luxury", from: 9000 },
   { name: "Tempo Traveller", seats: 12, img: "tt11", tag: "12 seater · AC ₹9,000 · Non-AC ₹8,600", from: 8600 },
   { name: "Mini Bus", seats: 21, img: "mini11", tag: "21 seater · on enquiry", from: null },
@@ -291,6 +290,7 @@ function TrustStrip() {
     { name: "Sedan", img: "sedan11", seats: 4 },
     { name: "Innova Crysta", img: "crysta11", seats: 7 },
     { name: "Innova Hycross", img: "hybrid11", seats: 7 },
+    { name: "Toyota Fortuner", img: "fortuner11", seats: 7 },
     { name: "Force Urbania", img: "urbania11", seats: 17 },
     { name: "Tempo Traveller", img: "tt11", seats: 12 },
     { name: "Mini Bus", img: "mini11", seats: 21 },
@@ -300,6 +300,7 @@ function TrustStrip() {
     { name: "Tempo Traveller", img: "tt12", seats: 12 },
     { name: "Crysta Premium", img: "crysta12", seats: 7 },
     { name: "Hycross Hybrid", img: "hybrid12", seats: 7 },
+    { name: "Fortuner", img: "fortuner12", seats: 7 },
     { name: "Sedan Comfort", img: "sedan12", seats: 4 },
     { name: "Coach & Bus", img: "mini12", seats: 50 },
   ];

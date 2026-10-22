@@ -4,7 +4,7 @@ import { addBooking, getBookings, makeBookingId, patchBooking } from '@/lib/db';
 import { sendBookingEmail } from '@/lib/mailer';
 import { paymentBreakdown } from '@/lib/payments';
 import { calculatePrice, formatINR } from '@/lib/pricing';
-import { sendBookingConfirmation, sendLeadGreeting } from '@/lib/whatsapp';
+import { sendBookingConfirmation, sendCustomerConfirmation, sendLeadGreeting, sendOwnerBookingAlert } from '@/lib/whatsapp';
 import { payToken } from '@/lib/pay-links';
 import { getRatesData } from '@/lib/rates-store';
 import { cookies } from 'next/headers';
@@ -203,20 +203,37 @@ export async function POST(req) {
       console.error('[booking email] failed to send for', booking.id, err?.message || err);
     }
 
-    // WhatsApp the customer from the business number: a short "Hi", the
-    // booking summary and a "Pay now" button (quote requests get the greeting).
-    try {
-      const wa = isEnquiry
-        ? await sendLeadGreeting({ phone: `91${last10(phone)}`, name })
-        : await sendBookingConfirmation(booking, { amountText: whatsappAmountText(booking), payToken: payToken(booking.id) });
-      booking.whatsappAuto = wa.sent ? 'sent' : wa.skipped ? 'not-configured' : 'failed';
-      await patchBooking(booking.id, { whatsappAuto: booking.whatsappAuto });
-    } catch (err) {
-      console.error('[booking whatsapp] failed for', booking.id, err?.message || err);
-      booking.whatsappAuto = 'failed';
-    }
+    // WhatsApp from the business number, sent server-side so the token never
+    // reaches the browser. Customer: "Hi" + booking details (with a "Pay now"
+    // button when WHATSAPP_BOOKING_TEMPLATE is set, otherwise the simple
+    // WHATSAPP_CUSTOMER_TEMPLATE; quote requests get the greeting). Owner:
+    // a new-booking alert. One failing never blocks the other or the booking.
+    const customerSend = isEnquiry
+      ? sendLeadGreeting({ phone: `91${last10(phone)}`, name })
+      : process.env.WHATSAPP_BOOKING_TEMPLATE
+      ? sendBookingConfirmation(booking, { amountText: whatsappAmountText(booking), payToken: payToken(booking.id) })
+      : sendCustomerConfirmation(booking);
+    const [customerWa, ownerWa] = await Promise.allSettled([customerSend, sendOwnerBookingAlert(booking)]);
+    const outcome = (r) => {
+      if (r.status === 'rejected') {
+        console.error('[booking whatsapp] failed for', booking.id, r.reason?.message || r.reason);
+        return 'failed';
+      }
+      return r.value.sent ? 'sent' : r.value.skipped ? 'not-configured' : 'failed';
+    };
+    booking.whatsappAuto = outcome(customerWa);
+    booking.whatsappOwner = outcome(ownerWa);
+    await patchBooking(booking.id, { whatsappAuto: booking.whatsappAuto, whatsappOwner: booking.whatsappOwner }).catch((err) =>
+      console.error('[booking whatsapp] could not save status', err?.message || err)
+    );
 
-    return NextResponse.json({ ok: true, booking });
+    return NextResponse.json({
+      ok: true,
+      success: true,
+      customerSent: booking.whatsappAuto === 'sent',
+      ownerSent: booking.whatsappOwner === 'sent',
+      booking,
+    });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: 'Something went wrong. Please call us instead.' }, { status: 500 });

@@ -12,6 +12,7 @@ function vehiclePhoto(vehicle) {
   if (key.includes('urbania')) return 'urbania11';
   if (key.includes('hycross') || key.includes('hybrid')) return 'hybrid11';
   if (key.includes('crysta')) return 'crysta11';
+  if (key.includes('fortuner')) return 'fortuner11';
   if (key.includes('tempo') || /\btt_/.test(key)) return 'tt11';
   if (key.includes('mini_bus') || key.includes('mini bus')) return 'mini11';
   if (key.includes('bus')) return 'mini12';
