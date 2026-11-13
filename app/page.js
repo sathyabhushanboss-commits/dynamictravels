@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -130,18 +130,11 @@ const FAQS = [
 ];
 
 /* =========================================================
-   HERO — crossfading slides + scroll parallax
+  HERO — simple image slider
 ========================================================= */
 
 function Hero() {
-  const ref = useRef(null);
-  const reduce = useReducedMotion();
   const [slide, setSlide] = useState(0);
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "45%"]);
-  const fade = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % HERO_SLIDES.length), 6000);
@@ -151,42 +144,22 @@ function Hero() {
   const current = HERO_SLIDES[slide];
 
   return (
-    <section ref={ref} className="relative isolate min-h-[92svh] overflow-hidden bg-ink lg:min-h-[94vh]">
-      {/* Parallax background slides */}
-      <motion.div style={reduce ? undefined : { y: bgY }} className="absolute inset-0 -z-10">
-        <AnimatePresence initial={false}>
-          <motion.img
-            key={current.name}
-            {...pic(current.name)}
-            sizes="100vw"
-            alt={`Dynamic Travels — ${current.place}`}
-            fetchPriority={slide === 0 ? "high" : "auto"}
-            initial={{ opacity: 0, scale: 1.12 }}
-            animate={{ opacity: 1, scale: 1.02 }}
-            exit={{ opacity: 0 }}
-            transition={{ opacity: { duration: 1.2 }, scale: { duration: 7, ease: "easeOut" } }}
-            className="absolute inset-0 h-full w-full object-cover contrast-[1.05] saturate-[1.15]"
-          />
-        </AnimatePresence>
-      </motion.div>
+    <section className="bg-white">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#eef2f4]">
+        <img
+          key={current.name}
+          {...pic(current.name)}
+          sizes="100vw"
+          alt={`Dynamic Travels — ${current.place}`}
+          fetchPriority={slide === 0 ? "high" : "auto"}
+          className="h-full w-full object-contain"
+        />
+      </div>
 
-      {/* Overlay — only a soft fade at the bottom so the CTAs and the booking
-          widget stay legible; the photo carries the hero */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/75 via-ink/5 to-ink/20" />
-
-      <motion.div
-        style={reduce ? undefined : { y: textY, opacity: fade }}
-        className="mx-auto flex min-h-[92svh] max-w-7xl flex-col items-center justify-end px-5 pb-40 pt-16 sm:px-8 lg:min-h-[94vh] lg:pb-52"
-      >
-        {/* Visually hidden — keeps the page's main heading for SEO */}
+      <div className="flex flex-col items-center gap-4 px-4 py-5 sm:py-6">
         <h1 className="sr-only">Dynamic Travels — premium cabs, Tempo Travellers &amp; bus rentals in Bengaluru</h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-3"
-        >
+        <div className="flex flex-wrap justify-center gap-3">
           <a
             href="#book"
             className="btn-shine inline-flex items-center gap-2 rounded-full bg-brand px-8 py-4 text-base font-bold text-white shadow-brand transition hover:-translate-y-0.5 hover:bg-brand-dark"
@@ -199,31 +172,31 @@ function Hero() {
               e.preventDefault();
               window.dispatchEvent(new Event(WHATSAPP_EVENT));
             }}
-            className="glass inline-flex items-center gap-2 rounded-full px-6 py-4 text-base font-bold text-white transition hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-4 text-base font-bold text-white transition hover:bg-[#1ebe5a]"
           >
-            <WhatsAppIcon className="h-5 w-5 text-[#25D366]" /> WhatsApp
+            <WhatsAppIcon className="h-5 w-5" /> WhatsApp
           </a>
           <a
             href={telLink}
-            className="glass inline-flex items-center gap-2 rounded-full px-6 py-4 text-base font-bold text-white transition hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full bg-sky px-6 py-4 text-base font-bold text-white transition hover:bg-sky-deep"
           >
-            <Phone size={18} className="text-sky-light" /> Call
+            <Phone size={18} /> Call
           </a>
-        </motion.div>
+        </div>
 
-        {/* Slide controls */}
-        <div className="mt-8 flex gap-2">
+        <div className="flex gap-2">
           {HERO_SLIDES.map((s, i) => (
             <button
               key={s.name}
               type="button"
               onClick={() => setSlide(i)}
               aria-label={`Show ${s.place}`}
-              className={`h-1.5 rounded-full transition-all duration-500 ${i === slide ? "w-10 bg-brand" : "w-4 bg-white/50 hover:bg-white/80"}`}
+              aria-current={i === slide ? "true" : undefined}
+              className={`h-2.5 w-2.5 rounded-full ${i === slide ? "bg-brand" : "bg-ink/25 hover:bg-ink/45"}`}
             />
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
@@ -268,7 +241,7 @@ function BookingInner() {
 
 function BookingSection() {
   return (
-    <section id="book" className="relative z-20 mx-auto -mt-32 max-w-6xl scroll-mt-28 px-4 sm:-mt-40 sm:px-6 lg:px-8">
+    <section id="book" className="relative z-20 mx-auto mt-8 max-w-6xl scroll-mt-28 px-4 sm:px-6 lg:px-8">
       <Reveal y={50}>
         <Suspense fallback={<div className="h-80 rounded-[28px] bg-white/80" />}>
           <BookingInner />
