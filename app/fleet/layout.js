@@ -2,12 +2,12 @@ import { SITE } from "@/lib/site";
 
 // SEO metadata for /fleet (the page itself is a client component).
 export const metadata = {
-  title: "Our Fleet \u2014 Sedan, Innova Crysta, Urbania, Tempo Traveller & Bus Rental",
-  description: "Book sedans, Innova Crysta, Innova Hycross, Force Urbania, Tempo Travellers, mini buses and coaches in Bengaluru with live fares, professional drivers and 24/7 support.",
+  title: "Force Urbania, Innova Crysta & Hycross Rental Fleet",
+  description: "Rent Force Urbania (9–17 seater), Innova Crysta and Innova Hycross with driver in Bengaluru, plus sedans, Fortuner and Tempo Travellers. Live fares 24/7.",
   alternates: { canonical: "/fleet" },
   openGraph: {
-    title: "Our Fleet \u2014 Sedan, Innova Crysta, Urbania, Tempo Traveller & Bus Rental",
-    description: "Book sedans, Innova Crysta, Innova Hycross, Force Urbania, Tempo Travellers, mini buses and coaches in Bengaluru with live fares, professional drivers and 24/7 support.",
+    title: "Force Urbania, Innova Crysta & Hycross Rental Fleet",
+    description: "Rent Force Urbania (9–17 seater), Innova Crysta and Innova Hycross with driver in Bengaluru, plus sedans, Fortuner and Tempo Travellers. Live fares 24/7.",
     url: "/fleet",
     images: ["/og-image.jpg"],
   },

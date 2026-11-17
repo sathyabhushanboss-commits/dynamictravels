@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -55,7 +56,7 @@ const destPic = (slug) => ({
 });
 
 const HERO_SLIDES = [
-  { name: "1", place: "Mysore Palace" },
+  { name: "1", place: "Force Urbania" },
   { name: "2", place: "Vidhana Soudha, Bengaluru" },
   { name: "3", place: "Weekend resort getaways" },
   { name: "4", place: "Coastal Karnataka" },
@@ -157,7 +158,7 @@ function Hero() {
       </div>
 
       <div className="flex flex-col items-center gap-4 px-4 py-5 sm:py-6">
-        <h1 className="sr-only">Dynamic Travels — premium cabs, Tempo Travellers &amp; bus rentals in Bengaluru</h1>
+        <h1 className="sr-only">Force Urbania, Innova Crysta &amp; Innova Hycross rental with driver in Bengaluru — Dynamic Travels</h1>
 
         <div className="flex flex-wrap justify-center gap-3">
           <a
@@ -873,6 +874,14 @@ function FinalCta() {
 ========================================================= */
 
 export default function Home() {
+  // Start downloading the first banner immediately (right size per screen).
+  ReactDOM.preload("/images/web/1.webp", {
+    as: "image",
+    imageSrcSet: "/images/web/1-sm.webp 800w, /images/web/1.webp 1600w",
+    imageSizes: "100vw",
+    fetchPriority: "high",
+  });
+
   return (
     <main className="min-h-screen overflow-x-hidden bg-cream">
       <Header />

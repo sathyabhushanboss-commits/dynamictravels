@@ -2,12 +2,12 @@ import { SITE } from "@/lib/site";
 
 // SEO metadata for /about (the page itself is a client component).
 export const metadata = {
-  title: "About Dynamic Travels \u2014 ISO 9001:2015 Certified Travel Company",
-  description: "Dynamic Travels is an ISO 9001:2015 certified travel and transportation company in Bengaluru, serving families, corporates and tourists across South India.",
+  title: "About Us — Urbania, Innova Crysta & Hycross Rentals",
+  description: "ISO 9001:2015 certified Bengaluru travel company renting Force Urbania, Innova Crysta and Innova Hycross with experienced drivers for tours and airport trips.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About Dynamic Travels \u2014 ISO 9001:2015 Certified Travel Company",
-    description: "Dynamic Travels is an ISO 9001:2015 certified travel and transportation company in Bengaluru, serving families, corporates and tourists across South India.",
+    title: "About Us — Urbania, Innova Crysta & Hycross Rentals",
+    description: "ISO 9001:2015 certified Bengaluru travel company renting Force Urbania, Innova Crysta and Innova Hycross with experienced drivers for tours and airport trips.",
     url: "/about",
     images: ["/og-image.jpg"],
   },

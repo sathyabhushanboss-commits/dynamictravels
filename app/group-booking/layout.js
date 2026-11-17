@@ -2,12 +2,12 @@ import { SITE } from "@/lib/site";
 
 // SEO metadata for /group-booking (the page itself is a client component).
 export const metadata = {
-  title: "Group Travel \u2014 Mini Bus, 33 & 50 Seater Bus Hire in Bengaluru",
-  description: "Hire mini buses, 33-seater and 50-seater coaches in Bengaluru for schools, weddings, pilgrimages, corporate events and tours. Get a quick quote.",
+  title: "Group Travel — Force Urbania, Tempo Traveller & Bus Hire",
+  description: "Hire a Force Urbania, 12-seater Tempo Traveller, mini bus or coach in Bengaluru for weddings, pilgrimages, corporate events and tours. Get a quick quote.",
   alternates: { canonical: "/group-booking" },
   openGraph: {
-    title: "Group Travel \u2014 Mini Bus, 33 & 50 Seater Bus Hire in Bengaluru",
-    description: "Hire mini buses, 33-seater and 50-seater coaches in Bengaluru for schools, weddings, pilgrimages, corporate events and tours. Get a quick quote.",
+    title: "Group Travel — Force Urbania, Tempo Traveller & Bus Hire",
+    description: "Hire a Force Urbania, 12-seater Tempo Traveller, mini bus or coach in Bengaluru for weddings, pilgrimages, corporate events and tours. Get a quick quote.",
     url: "/group-booking",
     images: ["/og-image.jpg"],
   },

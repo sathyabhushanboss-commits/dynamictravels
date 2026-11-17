@@ -160,12 +160,6 @@ function resolveRate(option, rates) {
   return id ? { rateId: id, def: rates.vehicles[id] } : { rateId: null, def: null };
 }
 
-function getImages(folder) {
-  return [1, 2, 3, 4].map(
-    (number) => `/images/fleet/${folder}/${number}.jpg`
-  );
-}
-
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
 const BOOKABLE_TRIP_TYPES = TRIP_TYPES.filter((t) => t.id !== "group");
@@ -176,11 +170,11 @@ const BOOKABLE_TRIP_TYPES = TRIP_TYPES.filter((t) => t.id !== "group");
 
 function VehicleCard({ vehicle, rates, onBook }) {
   const images = useMemo(
-    () => (vehicle.images?.length ? vehicle.images : getImages(vehicle.folder)),
+    () => vehicle.images || [],
     [vehicle.images, vehicle.folder]
   );
   const [activeImage, setActiveImage] = useState(0);
-  const [imageFailed, setImageFailed] = useState(false);
+  const [imageFailed, setImageFailed] = useState(!vehicle.images?.length);
 
   useEffect(() => {
     const timer = setInterval(() => {

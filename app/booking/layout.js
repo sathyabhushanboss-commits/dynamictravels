@@ -3,12 +3,12 @@ import { SITE } from "@/lib/site";
 // SEO metadata for /booking (the page itself is a client component).
 export const metadata = {
   title: "Review & Confirm Your Booking",
-  description: "Review your fare and confirm your Dynamic Travels booking.",
+  description: "Review your fare and confirm your Force Urbania, Innova Crysta, Innova Hycross or cab booking with Dynamic Travels.",
   alternates: { canonical: "/booking" },
   robots: { index: false, follow: false },
   openGraph: {
     title: "Review & Confirm Your Booking",
-    description: "Review your fare and confirm your Dynamic Travels booking.",
+    description: "Review your fare and confirm your Force Urbania, Innova Crysta, Innova Hycross or cab booking with Dynamic Travels.",
     url: "/booking",
     images: ["/og-image.jpg"],
   },

@@ -13,15 +13,22 @@ import { SITE, fullAddress } from "@/lib/site";
 ========================================================= */
 
 const KEYWORDS = [
+  "Force Urbania on rent Bangalore",
+  "Urbania rental Bangalore",
+  "Urbania 12 seater Bangalore",
+  "luxury Urbania for rent Bengaluru",
+  "Innova Crysta rental Bangalore",
+  "Innova Crysta with driver Bangalore",
+  "Innova Crysta for outstation",
+  "Innova Hycross rental Bangalore",
+  "Innova Hycross hybrid cab Bangalore",
   "Dynamic Travels",
   "cab booking Bangalore",
   "taxi service Bengaluru",
   "airport taxi Bangalore",
   "Bangalore airport cab",
   "outstation cabs from Bangalore",
-  "Innova Crysta rental Bangalore",
   "Tempo Traveller rental Bangalore",
-  "Force Urbania on rent Bangalore",
   "mini bus rental Bangalore",
   "bus hire Bengaluru",
   "car rental with driver Bangalore",
@@ -37,7 +44,7 @@ const KEYWORDS = [
 export const metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Dynamic Travels | Cab, Tempo Traveller & Bus Booking in Bengaluru",
+    default: "Force Urbania, Innova Crysta & Hycross Rental Bengaluru | Dynamic Travels",
     template: "%s | Dynamic Travels Bengaluru",
   },
   description: SITE.description,
@@ -54,13 +61,13 @@ export const metadata = {
     locale: "en_IN",
     url: SITE.url,
     siteName: SITE.name,
-    title: "Dynamic Travels — Premium Cabs, Tempo Travellers & Buses in Bengaluru",
+    title: "Force Urbania, Innova Crysta & Innova Hycross Rental in Bengaluru",
     description: SITE.description,
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Dynamic Travels fleet at Mysore Palace" }],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Dynamic Travels Force Urbania, Innova Crysta and Hycross fleet" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dynamic Travels — Premium Travel in Bengaluru",
+    title: "Force Urbania, Innova Crysta & Hycross Rental — Dynamic Travels",
     description: SITE.description,
     images: ["/og-image.jpg"],
   },
@@ -146,8 +153,10 @@ const jsonLd = {
           "Local Cab Rental",
           "Outstation Round Trip",
           "One Way Drop",
+          "Force Urbania Rental (9–17 seater)",
+          "Innova Crysta Rental with Driver",
+          "Innova Hycross Hybrid Rental",
           "Tempo Traveller Rental",
-          "Force Urbania Rental",
           "Mini Bus & Bus Rental",
           "Corporate & Wedding Transportation",
         ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
@@ -169,7 +178,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en-IN">
       <head>
-        <link rel="preload" as="image" href="/images/web/1.webp" type="image/webp" />
         <meta name="address" content={fullAddress} />
         <script
           type="application/ld+json"

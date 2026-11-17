@@ -8,7 +8,7 @@ import { SITE } from '@/lib/site';
 export const metadata = {
   title: 'Travel Journal — Road Trips from Bengaluru',
   description:
-    'Honest, detailed travel guides to Mysore, Coorg, Ooty, Hampi, Chikmagalur, Gokarna, Wayanad, Munnar, Pondicherry and the Hoysala temples — by Sathyabhushan M N.',
+    'Road trip guides from Bengaluru to Mysore, Coorg, Ooty, Hampi, Munnar and more — best travelled in a Force Urbania, Innova Crysta or Innova Hycross.',
   alternates: { canonical: '/blog' },
   openGraph: {
     title: 'Travel Journal — Road Trips from Bengaluru',

@@ -2,13 +2,13 @@ import { SITE } from "@/lib/site";
 
 // SEO metadata for /select-cars (the page itself is a client component).
 export const metadata = {
-  title: "Choose Your Vehicle",
-  description: "Compare vehicles and fares for your trip.",
+  title: "Choose Your Vehicle — Urbania, Innova Crysta, Hycross",
+  description: "Compare Force Urbania, Innova Crysta, Innova Hycross, sedans and Tempo Travellers with live fares for your trip from Bengaluru.",
   alternates: { canonical: "/select-cars" },
   robots: { index: false, follow: false },
   openGraph: {
-    title: "Choose Your Vehicle",
-    description: "Compare vehicles and fares for your trip.",
+    title: "Choose Your Vehicle — Urbania, Innova Crysta, Hycross",
+    description: "Compare Force Urbania, Innova Crysta, Innova Hycross, sedans and Tempo Travellers with live fares for your trip from Bengaluru.",
     url: "/select-cars",
     images: ["/og-image.jpg"],
   },
