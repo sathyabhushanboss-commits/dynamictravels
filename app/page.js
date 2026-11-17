@@ -56,7 +56,7 @@ const destPic = (slug) => ({
 });
 
 const HERO_SLIDES = [
-  { name: "1", place: "Mysore Palace" },
+  { name: "1", place: "Force Urbania" },
   { name: "2", place: "Vidhana Soudha, Bengaluru" },
   { name: "3", place: "Weekend resort getaways" },
   { name: "4", place: "Coastal Karnataka" },
