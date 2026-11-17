@@ -112,11 +112,6 @@ export default function BookingsTable({ initialBookings }) {
                     ) : (
                       <span className="rounded-full bg-amber/10 px-2 py-1 text-xs font-semibold text-amber-dark">Pay after ride</span>
                     )}
-                    {b.whatsappAuto && (
-                      <div className={`mt-1 text-[11px] ${b.whatsappAuto === 'sent' ? 'text-route-green' : 'text-amber-dark'}`}>
-                        {b.whatsappAuto === 'sent' ? 'WhatsApp sent ✓' : 'WhatsApp not sent'}
-                      </div>
-                    )}
                   </td>
                   <td className="px-4 py-3">
                     <select

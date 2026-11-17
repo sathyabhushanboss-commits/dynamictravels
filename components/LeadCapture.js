@@ -5,14 +5,14 @@
 //  • WhatsApp widget: opens when the floating / mobile-bar WhatsApp button is
 //    tapped (FloatingContact dispatches the `dt-whatsapp` event).
 //
-// Submitting saves the lead (/api/leads → database + emails + Meta WhatsApp
-// greeting) and opens WhatsApp with a personalised message from the visitor.
-// Returning visitors who already shared their details go straight to WhatsApp.
+// The visitor picks the service they want; submitting saves the lead
+// (/api/leads → database + email alert) and opens THEIR WhatsApp with a
+// ready-made message about that service, addressed to the business number.
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { CheckCircle2, Loader2, Mail, Phone, ShieldCheck, User, X } from 'lucide-react';
+import { CheckCircle2, Mail, Phone, ShieldCheck, User, X } from 'lucide-react';
 import { SITE, telLink } from '@/lib/site';
 import { getCustomer, saveCustomer } from '@/lib/cookies';
 import { WhatsAppIcon, WHATSAPP_EVENT } from './FloatingContact';
@@ -23,12 +23,14 @@ const SHOWN_KEY = 'dt_lead_popup_shown';
 // Don't interrupt checkout or the admin panel.
 const QUIET_PATHS = ['/admin', '/booking', '/select-cars', '/my-bookings', '/login', '/account', '/pay'];
 
+// `id` is stored on the lead (must match TRIP_TYPES in app/api/leads);
+// `ask` is the line used in the WhatsApp message.
 const TRIPS = [
-  { id: 'Airport transfer', label: 'Airport' },
-  { id: 'Local city ride', label: 'Local' },
-  { id: 'Outstation trip', label: 'Outstation' },
-  { id: 'Group / bus travel', label: 'Group' },
-  { id: 'Wedding / event', label: 'Event' },
+  { id: 'Airport transfer', label: 'Airport', ask: 'an airport transfer' },
+  { id: 'Local city ride', label: 'Local / Sightseeing', ask: 'a local city ride / sightseeing cab' },
+  { id: 'Outstation trip', label: 'Outstation', ask: 'an outstation trip' },
+  { id: 'Group / bus travel', label: 'Tempo / Bus', ask: 'a Tempo Traveller / bus for a group' },
+  { id: 'Wedding / event', label: 'Wedding / Event', ask: 'vehicles for a wedding / event' },
 ];
 
 const store = {
@@ -51,6 +53,28 @@ const store = {
 const tenDigits = (v) => String(v || '').replace(/\D/g, '').replace(/^(91|0)(?=\d{10}$)/, '').slice(0, 10);
 const firstName = (n) => String(n || '').trim().split(/\s+/)[0];
 
+function whatsappUrl({ name, phone, email, tripType }) {
+  const trip = TRIPS.find((t) => t.id === tripType);
+  const lines = [
+    `Hello ${SITE.name}! 👋`,
+    `I'm ${name}. I'm looking for ${trip ? trip.ask : 'a cab booking'}.`,
+    'Please share the available vehicles and fare.',
+    '',
+    `📞 +91 ${phone}`,
+    email ? `✉️ ${email}` : null,
+  ].filter((l) => l !== null);
+  return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+}
+
+// Opened inside the click handler so browsers don't block it. No 'noopener'
+// feature: with it window.open always returns null and we couldn't tell
+// whether a popup blocker stopped the tab.
+function openWhatsApp(url) {
+  const win = window.open(url, '_blank');
+  if (win) win.opener = null;
+  return Boolean(win);
+}
+
 /* ------------------------------------------------------------------ */
 /* Form                                                                */
 /* ------------------------------------------------------------------ */
@@ -69,7 +93,6 @@ function LeadForm({ source, compact = false, autoFocus = false, onSuccess }) {
   const pathname = usePathname() || '/';
   const [form, setForm] = useState({ name: '', phone: '', email: '', tripType: '', company: '' });
   const [error, setError] = useState('');
-  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     const c = getCustomer();
@@ -78,34 +101,30 @@ function LeadForm({ source, compact = false, autoFocus = false, onSuccess }) {
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: k === 'phone' ? tenDigits(e.target.value) : e.target.value }));
 
-  async function submit(e) {
+  function submit(e) {
     e.preventDefault();
     setError('');
     const name = form.name.trim();
     const email = form.email.trim();
+    if (!form.tripType) return setError('Please choose what you are looking for.');
     if (name.length < 2) return setError('Please enter your name.');
     if (!/^[6-9]\d{9}$/.test(form.phone)) return setError('Please enter a valid 10-digit mobile number.');
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return setError('Please enter a valid email address.');
 
-    // We message the customer from the business WhatsApp number (server-side,
-    // Meta Cloud API) — the customer never has to open WhatsApp themselves.
-    setSending(true);
-    try {
-      const res = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, name, email, source, page: pathname }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Something went wrong — please call us.');
-      saveCustomer({ name, phone: form.phone, email });
-      store.set('localStorage', DONE_KEY, '1');
-      onSuccess?.({ name, phone: form.phone, waSent: Boolean(data.whatsapp?.sent) });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setSending(false);
-    }
+    const lead = { ...form, name, email };
+    const url = whatsappUrl(lead);
+    const opened = openWhatsApp(url);
+    // Save the enquiry alongside (keepalive survives the tab switch).
+    fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...lead, source, page: pathname }),
+      keepalive: true,
+    }).catch(() => {});
+
+    saveCustomer({ name, phone: form.phone, email });
+    store.set('localStorage', DONE_KEY, '1');
+    onSuccess?.({ name, url, opened });
   }
 
   return (
@@ -117,8 +136,9 @@ function LeadForm({ source, compact = false, autoFocus = false, onSuccess }) {
       {/* Honeypot — hidden from people, bots fill it */}
       <input type="text" name="company" tabIndex={-1} autoComplete="off" value={form.company} onChange={set('company')} className="hidden" aria-hidden="true" />
 
-      {!compact && (
-        <div className="flex flex-wrap gap-2 pt-1">
+      <div>
+        <p className="mb-2 text-xs font-bold text-ink-soft">I&apos;m looking for</p>
+        <div className="flex flex-wrap gap-2">
           {TRIPS.map((t) => (
             <button
               key={t.id}
@@ -132,17 +152,16 @@ function LeadForm({ source, compact = false, autoFocus = false, onSuccess }) {
             </button>
           ))}
         </div>
-      )}
+      </div>
 
       {error && <p className="text-sm font-semibold text-red-600">{error}</p>}
 
       <button
         type="submit"
-        disabled={sending}
-        className="btn-shine flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-[15px] font-bold text-white shadow-[0_12px_28px_-10px_rgba(37,211,102,0.7)] transition hover:-translate-y-0.5 hover:bg-[#1ebe5a] disabled:opacity-70"
+        className="btn-shine flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-[15px] font-bold text-white shadow-[0_12px_28px_-10px_rgba(37,211,102,0.7)] transition hover:-translate-y-0.5 hover:bg-[#1ebe5a]"
       >
-        {sending ? <Loader2 size={18} className="animate-spin" /> : <WhatsAppIcon className="h-5 w-5" />}
-        Get details on WhatsApp
+        <WhatsAppIcon className="h-5 w-5" />
+        Chat on WhatsApp
       </button>
       <p className="flex items-center justify-center gap-1.5 text-center text-[11px] text-ink-mute">
         <ShieldCheck size={13} className="text-sky-deep" /> Your details stay private. No spam, ever.
@@ -151,21 +170,18 @@ function LeadForm({ source, compact = false, autoFocus = false, onSuccess }) {
   );
 }
 
-function Success({ name, phone, waSent }) {
+function Success({ name, url, opened }) {
   return (
     <div className="py-4 text-center">
       <CheckCircle2 size={48} className="mx-auto text-[#25D366]" />
       <h3 className="mt-4 font-display text-2xl font-extrabold text-ink">Thank you, {firstName(name)}!</h3>
       <p className="mx-auto mt-2 max-w-xs text-sm text-ink-soft">
-        {waSent ? (
-          <>We&apos;ve just sent you a WhatsApp message on <strong className="text-ink">+91 {phone}</strong>. Reply there and our travel expert will plan your trip.</>
-        ) : (
-          <>Our travel expert will WhatsApp you on <strong className="text-ink">+91 {phone}</strong> shortly.</>
-        )}
+        {opened ? 'WhatsApp is open with your message — just tap send.' : 'Tap below to send your message on WhatsApp.'} Our
+        travel expert will reply shortly.
       </p>
-      <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#E8F9EF] px-4 py-2 text-xs font-bold text-[#128C4B]">
-        <WhatsAppIcon className="h-4 w-4" /> Keep an eye on WhatsApp
-      </p>
+      <a href={url} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-bold text-white">
+        <WhatsAppIcon className="h-5 w-5" /> Open WhatsApp
+      </a>
     </div>
   );
 }
@@ -260,7 +276,7 @@ export default function LeadCapture() {
                   <h2 id="lead-title" className="mt-2 font-display text-[1.7rem] font-extrabold leading-tight text-ink sm:text-3xl">
                     Get the best fare in minutes.
                   </h2>
-                  <p className="mt-2 text-sm text-ink-soft">Share your details — we'll message you on WhatsApp.</p>
+                  <p className="mt-2 text-sm text-ink-soft">Pick a service and chat with our travel expert on WhatsApp.</p>
                   <div className="mt-6 text-left">
                     <LeadForm source="popup" onSuccess={setDone} />
                   </div>
@@ -309,7 +325,7 @@ export default function LeadCapture() {
             ) : (
               <>
                 <div className="relative mb-4 max-w-[88%] rounded-2xl rounded-tl-sm bg-white px-4 py-3 text-sm text-ink shadow-sm">
-                  Hello 👋 Are you looking for travelling? Share your details and we'll message you on WhatsApp right away.
+                  Hello 👋 Are you looking for travelling? Pick a service and we'll continue on WhatsApp.
                   <span className="mt-1 block text-right text-[10px] text-ink-mute">now</span>
                 </div>
                 <div className="rounded-2xl bg-cream/80 p-3">

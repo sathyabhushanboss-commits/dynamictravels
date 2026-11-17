@@ -6,6 +6,25 @@ import { SITE } from '@/lib/site';
 // Business contact comes from lib/site.js.
 const PHONE = SITE.phone;
 
+// Message the customer sends from their own WhatsApp, about the service they booked.
+function whatsappUrl(b) {
+  const lines = [
+    `Hello ${SITE.name}! 👋`,
+    `I've just booked ${b.tripTypeLabel || 'a ride'} on your website.`,
+    '',
+    `Booking ID: ${b.id}`,
+    `Name: ${b.name}`,
+    `Vehicle: ${b.vehicleLabel || '-'}`,
+    b.pickup ? `Pickup: ${b.pickup}` : null,
+    b.drop ? `Drop: ${b.drop}` : null,
+    b.date ? `Date: ${[b.date, b.time].filter(Boolean).join(' ')}` : null,
+    b.price?.enquiryOnly ? 'Fare: please share a quote' : `Fare: ${formatINR(b.price?.total)} (incl. GST)`,
+    '',
+    'Please confirm my booking.',
+  ].filter((l) => l !== null);
+  return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+}
+
 export default function ConfirmationCard({ booking, onReset }) {
   const paid = booking.paymentStatus === 'paid';
   const advance = booking.paymentStatus === 'advance_paid';
@@ -19,6 +38,11 @@ export default function ConfirmationCard({ booking, onReset }) {
         Booking ID <span className="font-semibold text-asphalt">{booking.id}</span>. Our team will call you shortly to
         finalize the details.
       </p>
+      {booking.emailSent && (
+        <p className="mt-3 rounded-xl bg-mist px-4 py-2.5 text-sm text-asphalt/80">
+          📧 All your booking details have been emailed to <span className="font-semibold text-asphalt">{booking.email}</span>.
+        </p>
+      )}
 
       {/* Fare + payment status */}
       {!booking.price?.enquiryOnly && (
@@ -59,24 +83,32 @@ export default function ConfirmationCard({ booking, onReset }) {
         </div>
       )}
 
-      {/* WhatsApp is sent automatically from the business number (server-side) */}
-      <div className="mt-6 flex items-start gap-3 rounded-xl bg-[#E8F9EF] p-4 text-sm text-[#0F5132]">
-        <span className="text-lg leading-none">💬</span>
-        <p>
-          {booking.whatsappAuto === 'sent'
-            ? booking.paymentStatus === 'paid'
-              ? 'We’ve sent your booking confirmation to your WhatsApp.'
-              : 'We’ve sent your booking details and a secure “Pay now” link to your WhatsApp.'
-            : 'Our team will send your booking details on WhatsApp shortly.'}
-        </p>
-      </div>
+      {/* Pay online now (private pay page — fare + online payment fee) */}
+      {booking.payPath && !paid && (
+        <a
+          href={booking.payPath}
+          className="focus-ring mt-6 flex items-center justify-center gap-2 rounded-full bg-brand px-4 py-3.5 text-sm font-bold text-white shadow-brand hover:bg-brand-dark"
+        >
+          🔒 Pay {formatINR(booking.balanceDue)} online now
+        </a>
+      )}
 
-      <a
-        href={`tel:${PHONE}`}
-        className="focus-ring mt-4 flex items-center justify-center gap-2 rounded-full border-2 border-asphalt px-4 py-3 text-sm font-semibold text-asphalt hover:bg-asphalt hover:text-white"
-      >
-        📞 Call Us
-      </a>
+      <div className={`grid gap-3 sm:grid-cols-2 ${booking.payPath && !paid ? 'mt-3' : 'mt-6'}`}>
+        <a
+          href={whatsappUrl(booking)}
+          target="_blank"
+          rel="noreferrer"
+          className="focus-ring flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-bold text-white hover:bg-[#1ebe5a]"
+        >
+          💬 Send booking on WhatsApp
+        </a>
+        <a
+          href={`tel:${PHONE}`}
+          className="focus-ring flex items-center justify-center gap-2 rounded-full bg-sky px-4 py-3 text-sm font-bold text-white hover:bg-sky-deep"
+        >
+          📞 Call Us
+        </a>
+      </div>
 
       {onReset && (
         <button onClick={onReset} className="focus-ring mt-6 text-sm font-medium text-route-teal underline underline-offset-4">

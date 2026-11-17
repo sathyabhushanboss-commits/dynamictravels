@@ -377,6 +377,7 @@ function FleetBookingModal({ vehicle, rates, onClose }) {
   // Quote-request fields
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [passengers, setPassengers] = useState("");
   const [notes, setNotes] = useState("");
 
@@ -389,6 +390,7 @@ function FleetBookingModal({ vehicle, rates, onClose }) {
     const c = getCustomer();
     if (c?.name) setName(c.name);
     if (c?.phone) setPhone(c.phone);
+    if (c?.email) setEmail(c.email);
   }, []);
 
   // Keep trip type valid when the AC / seater option changes
@@ -531,6 +533,7 @@ function FleetBookingModal({ vehicle, rates, onClose }) {
         body: JSON.stringify({
           name: name.trim(),
           phone: phone.trim(),
+          email: email.trim(),
           tripType,
           tripTypeLabel: `${tripTypeLabel} (Quote request)`,
           vehicleId: rateId || slug(displayName),
@@ -554,7 +557,7 @@ function FleetBookingModal({ vehicle, rates, onClose }) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Something went wrong");
       setResult(data.booking);
-      saveCustomer({ name: name.trim(), phone: phone.trim(), email: "" });
+      saveCustomer({ name: name.trim(), phone: phone.trim(), email: email.trim() });
       saveBookingRef(data.booking);
     } catch (err) {
       setError(`${err.message} — please call or WhatsApp us instead.`);
@@ -718,6 +721,10 @@ function FleetBookingModal({ vehicle, rates, onClose }) {
                     <div>
                       <Label>Phone number</Label>
                       <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" placeholder="10-digit mobile" className={inputCls} />
+                    </div>
+                    <div>
+                      <Label>Email (for your quote &amp; booking details)</Label>
+                      <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" placeholder="you@gmail.com" className={inputCls} />
                     </div>
                     <div>
                       <Label icon={Users}>Passengers</Label>

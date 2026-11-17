@@ -409,8 +409,8 @@ function BookingInner() {
                 <Field label="Phone number">
                   <input value={phone} onChange={(e) => setPhone(e.target.value)} type="tel" placeholder="10-digit mobile number" className="ntt-input" required />
                 </Field>
-                <Field label="Email (optional)">
-                  <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="ntt-input" />
+                <Field label="Email — we'll send your booking details">
+                  <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" placeholder="you@gmail.com" className="ntt-input" />
                 </Field>
                 <Field label="Notes (optional)">
                   <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Flight number, luggage, etc." className="ntt-input" />

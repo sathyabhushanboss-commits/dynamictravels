@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { addBooking, getBookings, makeBookingId, patchBooking } from '@/lib/db';
-import { sendBookingEmail } from '@/lib/mailer';
+import { addBooking, getBookings, makeBookingId } from '@/lib/db';
+import { sendBookingCustomerEmail, sendBookingEmail } from '@/lib/mailer';
+import { SITE } from '@/lib/site';
 import { paymentBreakdown } from '@/lib/payments';
-import { calculatePrice, formatINR } from '@/lib/pricing';
-import { sendBookingConfirmation, sendCustomerConfirmation, sendLeadGreeting, sendOwnerBookingAlert } from '@/lib/whatsapp';
+import { calculatePrice } from '@/lib/pricing';
 import { payToken } from '@/lib/pay-links';
 import { getRatesData } from '@/lib/rates-store';
 import { cookies } from 'next/headers';
@@ -83,12 +83,6 @@ async function verifyOnlinePayment(payment, expectedPaise) {
   }
   // Razorpay unreachable, but the signature is valid → accept, amount unchecked.
   return { ok: true, paidPaise: expectedPaise, unchecked: true };
-}
-
-function whatsappAmountText(b) {
-  if (b.paymentStatus === 'paid') return 'Paid in full ✅';
-  if (b.paymentStatus === 'advance_paid') return `${formatINR(b.balanceDue)} balance — pay online or to the driver`;
-  return `${formatINR(b.balanceDue)} — pay online now or to the driver after the ride`;
 }
 
 export async function POST(req) {
@@ -196,44 +190,19 @@ export async function POST(req) {
 
     await addBooking(booking);
 
-    // Awaited so serverless hosts don't kill it mid-send; never blocks booking.
-    try {
-      await sendBookingEmail(booking);
-    } catch (err) {
-      console.error('[booking email] failed to send for', booking.id, err?.message || err);
-    }
+    // Private "Pay now" page for anything still due (shown on the
+    // confirmation screen and in the customer's email).
+    const payPath = isEnquiry || booking.paymentStatus === 'paid' ? '' : `/pay/${payToken(booking.id)}`;
 
-    // WhatsApp from the business number, sent server-side so the token never
-    // reaches the browser. Customer: "Hi" + booking details (with a "Pay now"
-    // button when WHATSAPP_BOOKING_TEMPLATE is set, otherwise the simple
-    // WHATSAPP_CUSTOMER_TEMPLATE; quote requests get the greeting). Owner:
-    // a new-booking alert. One failing never blocks the other or the booking.
-    const customerSend = isEnquiry
-      ? sendLeadGreeting({ phone: `91${last10(phone)}`, name })
-      : process.env.WHATSAPP_BOOKING_TEMPLATE
-      ? sendBookingConfirmation(booking, { amountText: whatsappAmountText(booking), payToken: payToken(booking.id) })
-      : sendCustomerConfirmation(booking);
-    const [customerWa, ownerWa] = await Promise.allSettled([customerSend, sendOwnerBookingAlert(booking)]);
-    const outcome = (r) => {
-      if (r.status === 'rejected') {
-        console.error('[booking whatsapp] failed for', booking.id, r.reason?.message || r.reason);
-        return 'failed';
-      }
-      return r.value.sent ? 'sent' : r.value.skipped ? 'not-configured' : 'failed';
-    };
-    booking.whatsappAuto = outcome(customerWa);
-    booking.whatsappOwner = outcome(ownerWa);
-    await patchBooking(booking.id, { whatsappAuto: booking.whatsappAuto, whatsappOwner: booking.whatsappOwner }).catch((err) =>
-      console.error('[booking whatsapp] could not save status', err?.message || err)
-    );
+    // Owner alert + full details to the customer. Awaited so serverless hosts
+    // don't kill them mid-send; a failure never blocks the booking.
+    const [, customerMail] = await Promise.allSettled([
+      sendBookingEmail(booking),
+      sendBookingCustomerEmail(booking, SITE, payPath ? `${SITE.url}${payPath}` : ''),
+    ]);
+    const emailSent = customerMail.status === 'fulfilled' && customerMail.value?.sent === true;
 
-    return NextResponse.json({
-      ok: true,
-      success: true,
-      customerSent: booking.whatsappAuto === 'sent',
-      ownerSent: booking.whatsappOwner === 'sent',
-      booking,
-    });
+    return NextResponse.json({ ok: true, booking: { ...booking, payPath, emailSent } });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: 'Something went wrong. Please call us instead.' }, { status: 500 });
